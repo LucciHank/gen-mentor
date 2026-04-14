@@ -6,8 +6,8 @@ debug: true
 log_level: INFO
 
 llm:
-  provider: deepseek
-  model_name: deepseek-chat
+  provider: google_genai
+  model_name: gemini-3-flash-preview
   base_url: null
 
 embedding:

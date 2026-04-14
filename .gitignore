@@ -1,18 +1,68 @@
+# --- Python ---
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
 *.py[cod]
 *$py.class
-frontend/components/__pycache__/
-frontend/pages/__pycache__/
-frontend/utils/__pycache__/
-frontend/assets/exp_results
-frontend/user_data/*
-frontend/assets/validation_dataset
-frontend/.env
-backend/.env
-backend/data/
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-pids/
+# --- Virtual Environments ---
+.venv/
+venv/
+ENV/
+env/
+.env/
+
+# --- Environment Variables & Secrets ---
+.env
+.env.*
+!.env.example
+secrets.toml
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
+
+# --- Operating System ---
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Project Specific (GenMentor) ---
+backend/data/
+backend/logs/
+backend/pids/
+frontend/user_data/
+frontend/assets/exp_results/
+frontend/assets/validation_dataset/
+pids/
+logs/
+
+# --- Streamlit ---
+.streamlit/config.toml
+!.streamlit/static/

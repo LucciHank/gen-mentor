@@ -31,8 +31,8 @@ app.add_middleware(
 )
 
 def get_llm(model_provider: str | None = None, model_name: str | None = None, **kwargs):
-    model_provider = model_provider or "deepseek"
-    model_name = model_name or "deepseek-chat"
+    model_provider = model_provider or app_config.llm.provider
+    model_name = model_name or app_config.llm.model_name
     return LLMFactory.create(model=model_name, model_provider=model_provider, **kwargs)
 
 UPLOAD_LOCATION = "/mnt/datadrive/tfwang/code/llm-mentor/data/cv/"
