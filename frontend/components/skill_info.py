@@ -4,7 +4,7 @@ import streamlit as st
 
 def render_skill_info(learner_profile):
     # Display Mastered Skills
-    st.write("**Mastered Skills:**")
+    st.write("**Kỹ năng đã thành thạo:**")
     # len(learner_profile["cognitive_status"]["mastered_skills"])
     columns_spec = 2
     num_columns = math.ceil(len(learner_profile["cognitive_status"]["mastered_skills"]) / columns_spec)
@@ -12,16 +12,17 @@ def render_skill_info(learner_profile):
     for idx, skill in enumerate(learner_profile["cognitive_status"]["mastered_skills"]):
         mastered_cols = columns_list[idx // columns_spec]
         with mastered_cols[idx % columns_spec]:
+            from utils.translation import translate_level
             st.markdown(
                 f"<div style='background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 10px'>"
                 f"<strong>{skill['name']}</strong><br>"
-                f"{skill['proficiency_level'].capitalize()}"
+                f"{translate_level(skill['proficiency_level'])}"
                 f"</div>",
                 unsafe_allow_html=True
             )
 
     # Skills In Progress with custom indicators
-    st.write("**Skills In Progress:**")
+    st.write("**Kỹ năng đang học:**")
     in_progress_skills = learner_profile["cognitive_status"]["in_progress_skills"]
     num_columns = math.ceil(len(in_progress_skills) / columns_spec)
     columns_list = [st.columns(spec=columns_spec) for _ in range(num_columns)]
@@ -32,13 +33,13 @@ def render_skill_info(learner_profile):
         in_progress_cols = columns_list[idx // columns_spec]
         with in_progress_cols[idx % columns_spec]:
             # Render each skill in a styled box
-            levels = ["unlearned", "beginner", "intermediate", "advanced"]
+            from utils.translation import translate_level
             st.markdown(
                 f"""
                 <div style='background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #f5c6cb;'>
                     <strong>{skill_name}</strong><br>
-                    <span>Required Level: <strong>{required_level.capitalize()}</strong></span><br>
-                    <span>Current Level: <strong>{current_level.capitalize()}</strong></span><br>
+                    <span>Mức độ yêu cầu: <strong>{translate_level(required_level)}</strong></span><br>
+                    <span>Mức độ hiện tại: <strong>{translate_level(current_level)}</strong></span><br>
                 </div>
                 """,
                 unsafe_allow_html=True

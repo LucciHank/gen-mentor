@@ -4,9 +4,9 @@ from utils.request_api import chat_with_tutor
 from utils.state import index_goal_by_id
 
 
-@st.dialog("🤖 Ask Tutor")
+@st.dialog("🤖 Hỏi trợ giảng")
 def ask_autor_chatbot():
-    instruction = "👋 Hi! I'm your personal Tutor for goal-oriented learning 🎯. How can I help you achieve your learning goals today? "
+    instruction = "👋 Chào bạn! Tôi là Trợ giảng cá nhân của bạn để hỗ trợ học tập theo mục tiêu 🎯. Hôm nay tôi có thể giúp gì cho bạn? "
     # messages.chat_message("user").write(prompt)
     st.info(instruction)
     
@@ -17,7 +17,7 @@ def ask_autor_chatbot():
     learner_profile = goal["learner_profile"]
 
     messages = st.container(height=300)
-    if prompt := st.chat_input("Ask me anything"):
+    if prompt := st.chat_input("Hỏi tôi bất cứ điều gì"):
         messages.chat_message("user").write(prompt)
         st.session_state["tutor_messages"].append({"role": "user", "content": prompt})
         response = chat_with_tutor(
@@ -37,7 +37,7 @@ def render_chatbot():
 
     button_container = st.container()
     with button_container:
-        if_open_chatbot = st.button("Ask Autor ", type="primary", key="chatbot", icon="🤖", on_click=click_chatbot_func)
+        if_open_chatbot = st.button("Hỏi trợ giảng ", type="primary", key="chatbot", icon="🤖", on_click=click_chatbot_func)
         if if_open_chatbot:
             st.session_state.show_chatbot = True
 

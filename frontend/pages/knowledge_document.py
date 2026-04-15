@@ -27,7 +27,7 @@ def render_learning_content():
 
     goal = st.session_state["goals"][st.session_state["selected_goal_id"]]
     if not goal["learning_path"]:
-        st.error("Learning path is still scheduling. Please visit this page later.")
+        st.error("Lộ trình học tập đang được lập. Vui lòng quay lại sau.")
         return
 
     render_session_details(goal)
@@ -38,7 +38,7 @@ def render_learning_content():
     if not is_document_available and not st.session_state["if_updating_learner_profile"]:
         learning_content = render_content_preparation(goal)
         if learning_content is None:
-            st.error("Failed to prepare knowledge content.")
+            st.error("Không thể chuẩn bị nội dung kiến thức.")
             return
     else:
         track_session_learning_start_time()
@@ -57,15 +57,15 @@ def render_learning_content():
             st.divider()
             selected_sid = st.session_state["selected_session_id"]
             complete_button_status = True if goal["learning_path"][st.session_state["selected_session_id"]]["if_learned"] else False
-            if st.button("Regenerate", icon=":material/refresh:"):
-                st.session_state["document_caches"].pop(session_uid)
+            if st.button("Tạo lại", icon=":material/refresh:"):
+                st.session_state["document_caches"].pop(session_uid, None)
                 try:
                     save_persistent_state()
                 except Exception:
                     pass
                 goal['learner_profile']['behavioral_patterns']['additional_notes'] += f"I have regenerated Session {selected_sid} content.\n"
                 st.rerun()
-            if st.button("Complete Session", 
+            if st.button("Hoàn thành buổi học", 
                         key="complete-session", type="primary", icon=":material/task_alt:", 
                         use_container_width=True, disabled=complete_button_status or st.session_state["if_updating_learner_profile"]):
                 st.session_state["if_updating_learner_profile"] = True
@@ -89,9 +89,9 @@ def render_motivataional_triggers():
     trigger_interval = 60 * 3
     if curr_time - last_session_trigger_time > trigger_interval:
         if last_session_trigger_time_index % 2 == 0:
-            st.toast("🌟 Stay hydrated and keep a healthy posture.")
+            st.toast("🌟 Hãy uống nước và giữ tư thế ngồi đúng nhé.")
         else:
-            st.toast("🚀 Keep up the good work!")
+            st.toast("🚀 Tiếp tục phát huy nhé!")
         session_learning_times["trigger_time_list"].append(curr_time)
 
 def render_session_details(goal):
@@ -101,7 +101,7 @@ def render_session_details(goal):
 
     col1, col2, col3, col4 = st.columns([1, 2, 1, 1])
     with col1:
-        if st.button("Back", icon=":material/arrow_back:", key="back-learning-center"):
+        if st.button("Quay lại", icon=":material/arrow_back:", key="back-learning-center"):
             st.session_state["selected_page"] = "Learning Path"
             st.session_state["current_page"][session_uid] = 0
 
@@ -112,8 +112,9 @@ def render_session_details(goal):
                 pass
 
     with col3:
-        if st.button("Regenerate", icon=":material/refresh:", key="regenerate-content-top"):
-            st.session_state["document_caches"].pop(session_uid)
+        if st.button("Tạo lại", icon=":material/refresh:", key="regenerate-content-top"):
+            if session_uid in st.session_state["document_caches"]:
+                st.session_state["document_caches"].pop(session_uid)
             try:
                 save_persistent_state()
             except Exception:
@@ -125,7 +126,7 @@ def render_session_details(goal):
     with col4:
         complete_button_status = True if session_info["if_learned"] else False
 
-        if st.button("Complete Session", 
+        if st.button("Hoàn thành buổi học", 
                      key="complete-session-bottom", type="primary", icon=":material/task_alt:", 
                     #  on_click=update_learner_profile_with_feedback, kwargs={"feedback_data": "", "goal": goal, "session_information": session_info},
                      use_container_width=True, disabled=complete_button_status or st.session_state["if_updating_learner_profile"]):
@@ -145,10 +146,10 @@ def render_session_details(goal):
             except Exception:
                 pass
             if not update_result:
-                st.toast("Failed to update learner profile. Please try again.")
+                st.toast("Không thể cập nhật hồ sơ. Vui lòng thử lại.")
                 st.rerun()
             else:
-                st.toast("🎉 Session completed successfully!")
+                st.toast("🎉 Buổi học đã hoàn thành thành công!")
                 goal["learning_path"][selected_sid]["if_learned"] = True
                 st.session_state["selected_page"] = "Learning Path"
                 try:
@@ -168,7 +169,7 @@ def render_session_details(goal):
     with st.container(border=True):
         st.info(session_info["abstract"])
         associated_skills = session_info["associated_skills"]
-        st.write("**Associated Skills:**")
+        st.write("**Các kỹ năng liên quan:**")
         for i, skill_name in enumerate(associated_skills):
             st.write(f"- {skill_name}")
 
@@ -177,7 +178,7 @@ def render_content_preparation(goal):
     learning_session = goal["learning_path"][selected_sid]
     session_uid = get_current_session_uid()
     if use_mock_data:
-        st.warning("Using mock data for knowledge document.")
+        st.warning("Đang sử dụng dữ liệu mẫu cho tài liệu kiến thức.")
         file_path = "./assets/data_example/knowledge_document.json"
         learning_content = load_knowledge_point_content(file_path)
         st.session_state["document_caches"][session_uid] = learning_content
@@ -187,22 +188,22 @@ def render_content_preparation(goal):
             pass
         return learning_content
 
-    with st.spinner("Stage 1/4 - Exploring knowledge Points..."):
+    with st.spinner("Giai đoạn 1/4 - Khám phá các điểm kiến thức..."):
         knowledge_points = explore_knowledge_points(
             goal["learner_profile"],
             goal["learning_path"],
             learning_session,
-            llm_type="gpt4o"
+            llm_type=st.session_state.get("llm_type")
         )
     if knowledge_points is None:
-        st.error("Failed to explore knowledge points.")
+        st.error("Không thể khám phá các điểm kiến thức.")
         return
     else:
-        st.success("Stage 1/4 🔍 Knowledge points explored successfully.")
-        with st.expander("View Explored Knowledge Points", expanded=False):
+        st.success("Giai đoạn 1/4 🔍 Khám phá các điểm kiến thức thành công.")
+        with st.expander("Xem các điểm kiến thức đã khám phá", expanded=False):
             for kp in knowledge_points:
                 st.write(f"- {kp['name']} (`{kp['type']}`)")
-    with st.spinner("Stage 2/4 - Drafting knowledge points..."):
+    with st.spinner("Giai đoạn 2/4 - Đang soạn thảo các điểm kiến thức..."):
         knowledge_drafts = draft_knowledge_points(
             goal["learner_profile"],
             goal["learning_path"],
@@ -210,29 +211,29 @@ def render_content_preparation(goal):
             knowledge_points,
             use_search=use_search,
             allow_parallel=True,
-            llm_type="gpt4o"
+            llm_type=st.session_state.get("llm_type")
         )
     if knowledge_drafts is None:
-        st.error("Failed to draft knowledge points.")
+        st.error("Không thể soạn thảo các điểm kiến thức.")
         return
-    st.success("Stage 2/4 📝 Knowledge points drafted successfully.")
-    with st.spinner("Stage 3/4 - Integrating knowledge document..."):
+    st.success("Giai đoạn 2/4 📝 Soạn thảo các điểm kiến thức thành công.")
+    with st.spinner("Giai đoạn 3/4 - Đang tích hợp tài liệu kiến thức..."):
         document_structure = integrate_learning_document(
             goal["learner_profile"],
             goal["learning_path"],
             learning_session,
             knowledge_points,
             knowledge_drafts,
-            llm_type="gpt4o",
+            llm_type=st.session_state.get("llm_type"),
             output_markdown=False
         )
         learning_document = prepare_markdown_document(document_structure, knowledge_points, knowledge_drafts)
     if learning_document is None:
-        st.error("Failed to integrate knowledge document.")
+        st.error("Không thể tích hợp tài liệu kiến thức.")
         return
-    st.success("Stage 3/4 📚 Knowledge document integrated successfully.")
+    st.success("Giai đoạn 3/4 📚 Tích hợp tài liệu kiến thức thành công.")
     learning_content = {"document": learning_document}
-    with st.spinner("Stage 4/4 - Generating document quizzes..."):
+    with st.spinner("Giai đoạn 4/4 - Đang tạo các câu đố tài liệu..."):
         quizzes = generate_document_quizzes(
             goal["learner_profile"],
             learning_document,
@@ -240,10 +241,10 @@ def render_content_preparation(goal):
             multiple_choice_count=1,
             true_false_count=1,
             short_answer_count=1,
-            llm_type="gpt4o"
+            llm_type=st.session_state.get("llm_type")
         )
     learning_content["quizzes"] = quizzes
-    st.success("Stage 4/4 🎯 Document quizzes generated successfully.")
+    st.success("Giai đoạn 4/4 🎯 Tạo các câu đố tài liệu thành công.")
     st.session_state["document_caches"][session_uid] = learning_content
     try:
         save_persistent_state()
@@ -323,7 +324,7 @@ def render_document_content_by_section(document):
             pass
     st.markdown(section_documents[current_page])
 
-    st.sidebar.header("Document Structure")
+    st.sidebar.header("Cấu trúc tài liệu")
     curr_l2 = 0
     curr_l3 = 0
     page_idx_counter = -1
@@ -347,7 +348,7 @@ def render_document_content_by_section(document):
 
     col_prev, col_center, col_next= st.columns([1, 4, 1])
     if current_page > 0:
-        if col_prev.button("Previous Page", icon=":material/arrow_back:", use_container_width=True, key="prev-section-page"):
+        if col_prev.button("Trang trước", icon=":material/arrow_back:", use_container_width=True, key="prev-section-page"):
             new_page = current_page - 1
             st.session_state["current_page"][page_key] = new_page
             try:
@@ -356,7 +357,7 @@ def render_document_content_by_section(document):
                 pass
             st.rerun()
     if current_page < len(section_documents) - 1:
-        if col_next.button("Next Page", icon=":material/arrow_forward:", use_container_width=True, key="next-section-page"):
+        if col_next.button("Trang sau", icon=":material/arrow_forward:", use_container_width=True, key="next-section-page"):
             new_page = current_page + 1
             st.session_state["current_page"][page_key] = new_page
             try:
@@ -400,7 +401,7 @@ def render_document_content_by_document(document):
             curr_level_3_idx += 1
             sidebar_content += f"> [{curr_level_2_idx}.{curr_level_3_idx}. {section['title']}](#{anchor})\n\n"
 
-    st.sidebar.header("Document Structure")
+    st.sidebar.header("Cấu trúc tài liệu")
     st.sidebar.markdown(sidebar_content)
 
     st.markdown(document)
@@ -411,18 +412,18 @@ def render_document_content_by_document(document):
 
 
 def render_questions(quiz_data):
-    st.subheader("💡 Test Your Knowledge")
+    st.subheader("💡 Kiểm tra kiến thức của bạn")
     for i, q in enumerate(quiz_data['single_choice_questions']):
         st.write(f"**{i+1}. {q['question']}**")
-        selected_option = st.radio("Options", q['options'], key=f"single_{i}", index=None, label_visibility="hidden")
+        selected_option = st.radio("Lựa chọn", q['options'], key=f"single_{i}", index=None, label_visibility="hidden")
         if selected_option is not None:
             correct_option_idx = q['correct_option']
             correct_option = q['options'][correct_option_idx]
             if selected_option == correct_option:
-                st.success("Correct!")
+                st.success("Đúng!")
             else:
-                st.error("Incorrect.")
-            with st.expander("Explanation", expanded=True, icon=":material/info:"):
+                st.error("Sai.")
+            with st.expander("Giải thích", expanded=True, icon=":material/info:"):
                 st.write(q['explanation'])
 
     for i, q in enumerate(quiz_data['multiple_choice_questions']):
@@ -433,60 +434,60 @@ def render_questions(quiz_data):
             if st.checkbox(option, key=f"multi_{i}_option_{j}"):
                 selected_options.append(option)
 
-        if st.button("Submit", key=f"multi_submit_{i}"):
+        if st.button("Gửi", key=f"multi_submit_{i}"):
             correct_options = set(q['options'][correct_option_idx] for correct_option_idx in q['correct_options'])
             if set(selected_options) == set(correct_options):
-                st.success("Correct!")
+                st.success("Đúng!")
             else:
-                st.error("Some options are incorrect.")
-            with st.expander("Explanation", expanded=False):
+                st.error("Một số lựa chọn chưa đúng.")
+            with st.expander("Giải thích", expanded=False):
                 st.write(q['explanation'])
 
     for i, q in enumerate(quiz_data['true_false_questions']):
         st.write(f"**{len(quiz_data['single_choice_questions']) + len(quiz_data['multiple_choice_questions']) + i + 1}. {q['question']}**")
-        selected_answer = st.radio("True or False?", ["True", "False"], key=f"tf_{i}", label_visibility="hidden", index=None)
-        correct_answer = "True" if q['correct_answer'] else "False"
+        selected_answer = st.radio("Đúng hay Sai?", ["Đúng", "Sai"], key=f"tf_{i}", label_visibility="hidden", index=None)
+        correct_answer = "Đúng" if q['correct_answer'] else "Sai"
         if selected_answer:
             if selected_answer == correct_answer:
-                st.success("Correct!")
+                st.success("Đúng!")
             else:
-                st.error("Incorrect.")
-            with st.expander("Explanation", expanded=False):
+                st.error("Sai.")
+            with st.expander("Giải thích", expanded=False):
                 st.write(q['explanation'])
 
     for i, q in enumerate(quiz_data['short_answer_questions']):
         st.write(f"**{len(quiz_data['single_choice_questions']) + len(quiz_data['multiple_choice_questions']) + len(quiz_data['true_false_questions']) + i + 1}. {q['question']}**")
-        user_answer = st.text_input("Your Answer", key=f"short_{i}", label_visibility="hidden")
+        user_answer = st.text_input("Câu trả lời của bạn", key=f"short_{i}", label_visibility="hidden")
         if user_answer:
             if user_answer.strip().lower() == q['expected_answer'].strip().lower():
-                st.success("Correct!")
+                st.success("Đúng!")
             else:
-                st.error("Incorrect.")
-            with st.expander("Explanation", expanded=False):
+                st.error("Sai.")
+            with st.expander("Giải thích", expanded=False):
                 st.write(q['explanation'])
 
 def render_content_feedback_form(goal):
-    st.header("🌟 Value Your Feedback!") 
+    st.header("🌟 Đánh giá của bạn!") 
     with st.form("feedback_form"):
-        st.info("Your feedback helps us improve the learning experience.\nPlease take a moment to share your thoughts.")
+        st.info("Phản hồi của bạn giúp chúng tôi cải thiện trải nghiệm học tập.\nVui lòng dành chút thời gian để chia sẻ suy nghĩ của bạn.")
 
         col1, col2 = st.columns([1, 3])
-        col1.write("Clarity of Content")
+        col1.write("Độ rõ ràng của nội dung")
         clarity = col2.feedback("stars", key="clarity")
 
         col1, col2 = st.columns([1, 3])
-        col1.write("Relevance to Goals")
+        col1.write("Mức độ phù hợp với mục tiêu")
         relevance = col2.feedback("stars", key="relevance")
 
         col1, col2 = st.columns([1, 3])
-        col1.write("Depth of Content")
+        col1.write("Độ sâu của nội dung")
         depth = col2.feedback("stars", key="depth")
 
         col1, col2 = st.columns([1, 3])
-        col1.write("Engagement Level")
+        col1.write("Mức độ tương tác")
         engagement = col2.feedback("faces", key="engagement")
 
-        additional_comments = st.text_area("Additional Comments", max_chars=500)
+        additional_comments = st.text_area("Ý kiến bổ sung", max_chars=500)
         feedback_data = {
             "clarity": clarity,
             "relevance": relevance,
@@ -494,22 +495,27 @@ def render_content_feedback_form(goal):
             "engagement": engagement,
             "additional_comments": additional_comments
         }
-        submitted = st.form_submit_button("Submit Feedback", on_click=update_learner_profile_with_feedback, kwargs={"feedback_data": feedback_data, "goal": goal})
+        submitted = st.form_submit_button("Gửi phản hồi", on_click=update_learner_profile_with_feedback, kwargs={"feedback_data": feedback_data, "goal": goal})
         if submitted:
-            st.success("Thank you for your feedback!")
+            st.success("Cảm ơn bạn đã phản hồi!")
 
 def update_learner_profile_with_feedback(goal, feedback_data, session_information=""):
-    st.toast("Updating your profile...")
+    st.toast("Đang cập nhật hồ sơ của bạn...")
     if session_information != "":
         session_information = copy.deepcopy(session_information)
         session_information["if_learned"] = True
-    new_learner_profile = update_learner_profile(goal["learner_profile"], feedback_data, session_information=session_information)
+    new_learner_profile = update_learner_profile(
+        goal["learner_profile"],
+        feedback_data,
+        session_information=session_information,
+        llm_type=st.session_state.get("llm_type"),
+    )
     if new_learner_profile is None:
-        st.error("Failed to update learner profile. Please try again.")
+        st.error("Không thể cập nhật hồ sơ người học. Vui lòng thử lại.")
         return False
     else:
         goal["learner_profile"] = new_learner_profile
-        st.toast("🎉 Your profile has been updated!")
+        st.toast("🎉 Hồ sơ của bạn đã được cập nhật!")
         return True
 
 def load_knowledge_point_content(file_path):
@@ -517,7 +523,7 @@ def load_knowledge_point_content(file_path):
         knowledge_document = json.load(open(file_path))
         return knowledge_document
     except FileNotFoundError:
-        st.error("Knowledge document not found. Please make sure `knowledge_document.md` is in the correct directory.")
+        st.error("Không tìm thấy tài liệu kiến thức. Vui lòng đảm bảo `knowledge_document.json` nằm trong thư mục chính xác.")
         return None
 
 render_learning_content()

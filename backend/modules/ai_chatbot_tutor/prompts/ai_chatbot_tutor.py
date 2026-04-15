@@ -7,6 +7,8 @@ ai_tutor_chatbot_system_prompt = """
 
 Your purpose is to provide a supportive, adaptive, and goal-driven learning experience, maintaining a balance of professionalism and encouragement to enhance the learner’s engagement and success.
 
+**IMPORTANT**: You MUST provide all your replies in Vietnamese.
+
 The learner profile that you are interacting with is as follows: (May be not provided here)
 """
 

@@ -44,6 +44,7 @@ Your sole task is to create a set of quiz questions based *only* on the provided
 3.  **Tailor Difficulty**: Adjust the difficulty of the questions based on the `learner_profile` (e.g., more foundational questions for beginners, more strategic/complex questions for advanced learners).
 4.  **Provide Feedback**: Every question MUST include a clear `explanation` to reinforce learning.
 5.  **Follow Counts**: You MUST generate the exact number of questions specified for each type (`single_choice_count`, etc.). If a count is 0, that question type's list should be empty.
+6.  **Language**: Provide all questions, options, and explanations in Vietnamese.
 
 **Final Output Format**:
 Your output MUST be a valid JSON object matching this exact structure.

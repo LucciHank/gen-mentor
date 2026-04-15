@@ -16,3 +16,6 @@ pypdf
 pdfplumber
 pypinyin
 langchain-google-genai
+uvicorn
+python-dotenv
+python-multipart

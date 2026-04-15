@@ -1,0 +1,28 @@
+INFO:     127.0.0.1:51941 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51949 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52081 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52087 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52399 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52411 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52478 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52493 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52495 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52543 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52546 - "GET /list-llm-models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52551 - "POST /chat-with-tutor HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:52553 - "POST /refine-learning-goal HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:52561 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52580 - "GET /list-llm-models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52583 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52593 - "POST /integrate-learning-document HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52662 - "GET /list-llm-models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52759 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52767 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52770 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52877 - "POST /chat-with-tutor HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52900 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54700 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54704 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:56400 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56432 - "POST /explore-knowledge-points HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56435 - "POST /draft-knowledge-points HTTP/1.1" 500 Internal Server Error

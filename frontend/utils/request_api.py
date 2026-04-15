@@ -24,6 +24,24 @@ API_NAMES = {
 }
 
 
+def _build_model_payload(llm_type=None, method_name="genmentor"):
+    payload = {"method_name": str(method_name)}
+    if not isinstance(llm_type, str):
+        return payload
+
+    llm_type = llm_type.strip()
+    if not llm_type or "/" not in llm_type:
+        return payload
+
+    model_provider, model_name = llm_type.split("/", 1)
+    model_provider = model_provider.strip()
+    model_name = model_name.strip()
+    if model_provider and model_name:
+        payload["model_provider"] = model_provider
+        payload["model_name"] = model_name
+    return payload
+
+
 def make_post_request(api_name, data, mock_data_path=None, timeout=500):
     """Send a POST request to the backend API, or return mock data if enabled."""
     if use_mock_data and mock_data_path:
@@ -55,86 +73,83 @@ def get_available_models(backend_endpoint):
         # st.write("Failed to fetch available models. Error:", e)
         return []
 
-def chat_with_tutor(chat_messages, learner_profile, llm_type="gpt4o", method_name="genmentor"):
+def chat_with_tutor(chat_messages, learner_profile, llm_type=None, method_name="genmentor"):
     data = {
         "messages": str(chat_messages),
         "learner_profile": str(learner_profile),
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request(API_NAMES["chat_with_tutor"], data, "./assets/data_example/ai)tutor_chat.json")
     return response.get("response") if response else None
 
-def refine_learning_goal(learning_goal, learner_information, llm_type="gpt4o", method_name="genmentor"):
+def refine_learning_goal(learning_goal, learner_information, llm_type=None, method_name="genmentor"):
     data = {
         "learning_goal": str(learning_goal),
         "learner_information": str(learner_information),
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request(API_NAMES["refine_goal"], data)
     return response.get("refined_goal") if response else "Refined learning goal"
 
 @st.cache_resource
-def identify_skill_gap(learning_goal, learner_information, llm_type="gpt4o", method_name="genmentor"):
+def identify_skill_gap(learning_goal, learner_information, llm_type=None, method_name="genmentor"):
     data = {
         "learning_goal": str(learning_goal),
         "learner_information": str(learner_information),
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request(API_NAMES["identify_skill_gap"], data, "./assets/data_example/skill_gap.json")
     return response.get("skill_gaps") if response else None
 
 @st.cache_resource
-def create_learner_profile(learning_goal, learner_information, skill_gaps, llm_type="gpt4o", method_name="genmentor"):
+def create_learner_profile(learning_goal, learner_information, skill_gaps, llm_type=None, method_name="genmentor"):
     data = {
         "learning_goal": str(learning_goal),
         "learner_information": str(learner_information),
         "skill_gaps": str(skill_gaps),
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request(API_NAMES["create_profile"], data, "./assets/data_example/learner_profile.json")
     return response.get("learner_profile") if response else None
 
-def update_learner_profile(learner_profile, learner_interactions, learner_information="", session_information="", llm_type="gpt4o", method_name="genmentor"):
+def update_learner_profile(learner_profile, learner_interactions, learner_information="", session_information="", llm_type=None, method_name="genmentor"):
     data = {
         "learner_profile": str(learner_profile),
         "learner_interactions": str(learner_interactions),
         "learner_information": str(learner_information),
         "session_information": str(session_information),
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request(API_NAMES["update_profile"], data, "./assets/data_example/learner_profile.json")
     return response.get("learner_profile") if response else None
 
 # @st.cache_resource
-def schedule_learning_path(learner_profile, session_count, llm_type="gpt4o", method_name="genmentor"):
+def schedule_learning_path(learner_profile, session_count, llm_type=None, method_name="genmentor"):
     data = {
         "learner_profile": str(learner_profile),
         "session_count": session_count,
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request(API_NAMES["schedule_path"], data, "./assets/data_example/learning_path.json")
-    return response.get("learning_path") if response else None
+    if not response:
+        return None
+    return response.get("learning_path", response)
 
-def reschedule_learning_path(learning_path, learner_profile, session_count, other_feedback="", llm_type="gpt4o", method_name="genmentor"):
+def reschedule_learning_path(learning_path, learner_profile, session_count, other_feedback="", llm_type=None, method_name="genmentor"):
     data = {
         "learning_path": str(learning_path),
         "learner_profile": str(learner_profile),
         "session_count": int(session_count),
         "other_feedback": str(other_feedback),
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request(API_NAMES["reschedule_path"], data, "./assets/data_example/learning_path.json")
-    return response.get("rescheduled_learning_path") if response else None
+    if not response:
+        return None
+    return response.get("rescheduled_learning_path", response.get("learning_path", response))
 
 # @st.cache_resource
-def generate_document_quizzes(learner_profile, learning_document, single_choice_count, multiple_choice_count, true_false_count, short_answer_count, llm_type="gpt4o", method_name="genmentor"):
+def generate_document_quizzes(learner_profile, learning_document, single_choice_count, multiple_choice_count, true_false_count, short_answer_count, llm_type=None, method_name="genmentor"):
     data = {
         "learner_profile": str(learner_profile),
         "learning_document": str(learning_document),
@@ -142,24 +157,24 @@ def generate_document_quizzes(learner_profile, learning_document, single_choice_
         "multiple_choice_count": multiple_choice_count,
         "true_false_count": true_false_count,
         "short_answer_count": short_answer_count,
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request("generate-document-quizzes", data, "./assets/data_example/document_quiz.json")
     return response.get("document_quiz") if response else None
 
 # @st.cache_resource
-def explore_knowledge_points(learner_profile, learning_path, learning_session, llm_type="gpt4o", method_name="genmentor"):
+def explore_knowledge_points(learner_profile, learning_path, learning_session, llm_type=None, method_name="genmentor"):
     data = {
         "learner_profile": str(learner_profile),
         "learning_path": str(learning_path),
         "learning_session": str(learning_session),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request("explore-knowledge-points", data, "./assets/data_example/knowledge_points.json")
     return response.get("knowledge_points") if response else None
 
 # @st.cache_resource
-def draft_knowledge_point(learner_profile, learning_path, learning_session, knowledge_points, knowledge_point, use_search, llm_type="gpt4o", method_name="genmentor"):
+def draft_knowledge_point(learner_profile, learning_path, learning_session, knowledge_points, knowledge_point, use_search, llm_type=None, method_name="genmentor"):
     data = {
         "learner_profile": str(learner_profile),
         "learning_path": str(learning_path),
@@ -167,14 +182,13 @@ def draft_knowledge_point(learner_profile, learning_path, learning_session, know
         "knowledge_points": str(knowledge_points),
         "knowledge_point": str(knowledge_point),
         "use_search": use_search,
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request("draft-knowledge-point", data, "./assets/data_example/knowledge_point.json")
     return response.get("knowledge_draft") if response else None
 
 # @st.cache_resource
-def draft_knowledge_points(learner_profile, learning_path, learning_session, knowledge_points, allow_parallel, use_search, llm_type="gpt4o", method_name="genmentor"):
+def draft_knowledge_points(learner_profile, learning_path, learning_session, knowledge_points, allow_parallel, use_search, llm_type=None, method_name="genmentor"):
     data = {
         "learner_profile": str(learner_profile),
         "learning_path": str(learning_path),
@@ -182,14 +196,13 @@ def draft_knowledge_points(learner_profile, learning_path, learning_session, kno
         "knowledge_points": str(knowledge_points),
         "allow_parallel": allow_parallel,
         "use_search": use_search,
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request("draft-knowledge-points", data, "./assets/data_example/knowledge_points.json")
     return response.get("knowledge_drafts") if response else None
 
 # @st.cache_resource
-def integrate_learning_document(learner_profile, learning_path, learning_session, knowledge_points, knowledge_drafts, output_markdown=False, llm_type="gpt4o", method_name="genmentor"):
+def integrate_learning_document(learner_profile, learning_path, learning_session, knowledge_points, knowledge_drafts, output_markdown=False, llm_type=None, method_name="genmentor"):
     data = {
         "learner_profile": str(learner_profile),
         "learning_path": str(learning_path),
@@ -197,8 +210,7 @@ def integrate_learning_document(learner_profile, learning_path, learning_session
         "knowledge_points": str(knowledge_points),
         "knowledge_drafts": str(knowledge_drafts),
         "output_markdown": output_markdown,
-        "llm_type": str(llm_type),
-        "method_name": str(method_name),
+        **_build_model_payload(llm_type, method_name),
     }
     response = make_post_request("integrate-learning-document", data, "./assets/data_example/learning_document.json")
     if output_markdown:

@@ -8,8 +8,8 @@ from components.skill_info import render_skill_info
 
 
 def render_goal_management():
-    st.title("Goal Management")
-    st.write("Manage your learning goals: add new ones, edit or delete existing ones.")
+    st.title("Quản lý mục tiêu")
+    st.write("Quản lý các mục tiêu học tập của bạn: thêm mới, chỉnh sửa hoặc xóa các mục tiêu hiện có.")
 
     render_add_new_goal()
     st.divider()
@@ -30,14 +30,14 @@ def render_add_new_goal():
             pass
 
     to_add_goal = st.session_state["to_add_goal"]
-    st.subheader("🎯 Add New Goal")
-    new_learning_goal = st.text_area("Enter your new goal:", to_add_goal["learning_goal"], key="new_learning_goal")
+    st.subheader("🎯 Thêm mục tiêu mới")
+    new_learning_goal = st.text_area("Nhập mục tiêu mới của bạn:", to_add_goal["learning_goal"], key="new_learning_goal")
     to_add_goal["learning_goal"] = new_learning_goal
 
     refine_col, clear_col, hint_col, add_col = st.columns([1, 1, 3, 1])
 
     render_goal_refinement(to_add_goal, refine_col, hint_col)
-    if clear_col.button("Clear", key="clear_goal"):
+    if clear_col.button("Xóa", key="clear_goal"):
         reset_to_add_goal()
         try:
             save_persistent_state()
@@ -45,11 +45,11 @@ def render_add_new_goal():
             pass
         st.rerun()
 
-    if add_col.button("Add Goal", type="primary", icon=":material/add:", use_container_width=True):
+    if add_col.button("Thêm mục tiêu", type="primary", icon=":material/add:", use_container_width=True):
         if new_learning_goal:
             render_skill_gap_dialog()
         else:
-            hint_col.warning("Please enter a goal before adding.")
+            hint_col.warning("Vui lòng nhập mục tiêu trước khi thêm.")
 
     if st.session_state["if_show_skill_gap_results_in_dialog"]:
         render_skill_gap_dialog()
@@ -57,22 +57,22 @@ def render_add_new_goal():
 
 
 def render_existing_goals():
-    st.subheader("📋 Existing Goals")
+    st.subheader("📋 Các mục tiêu hiện có")
     goals = st.session_state["goals"]
     non_deleted_goals = [goal for goal in goals if not goal["is_deleted"]]
 
     for goal_id, goal in enumerate(non_deleted_goals):
         with st.container():
             col_left, col_right = st.columns([3, 1])
-            col_left.write(f"#### Goal {goal_id + 1}")
+            col_left.write(f"#### Mục tiêu {goal_id + 1}")
             
             # Check if the current goal is the active goal
             is_active = st.session_state.get("selected_goal_id") == goal["id"]
             
             if is_active:
-                col_right.button("Current Active Goal", type="primary", key=f"active_{goal['id']}", use_container_width=True)
+                col_right.button("Mục tiêu đang hoạt động", type="primary", key=f"active_{goal['id']}", use_container_width=True)
             else:
-                if col_right.button("Set as Active Goal", key=f"set_{goal['id']}", help="Mark this goal as your active learning goal."):
+                if col_right.button("Đặt làm mục tiêu chính", key=f"set_{goal['id']}", help="Đánh dấu mục tiêu này là mục tiêu học tập chính của bạn."):
                     st.session_state.selected_goal_id = goal["id"]
                     try:
                         save_persistent_state()
@@ -86,39 +86,39 @@ def render_existing_goals():
                     st.rerun()
             
             st.info(f"{goal['learning_goal']}")
-            st.write(f"**Overall Progress:**")
+            st.write(f"**Tiến độ tổng thể:**")
             learner_profile = goal["learner_profile"]
             overall_progress = learner_profile["cognitive_status"]["overall_progress"]
-            progress = st.slider("Progress", min_value=0, max_value=100, value=overall_progress, key=f"progress_{goal['id']}", disabled=True)
+            progress = st.slider("Tiến độ", min_value=0, max_value=100, value=overall_progress, key=f"progress_{goal['id']}", disabled=True)
             unlearned_skill = len(goal['learner_profile']['cognitive_status']['in_progress_skills'])
             learned_skill = len(goal['learner_profile']['cognitive_status']['mastered_skills'])
             all_skill = learned_skill + unlearned_skill
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
-                st.metric(label="Total Skill Count", value=all_skill, delta_color="off")
+                st.metric(label="Tổng số kỹ năng", value=all_skill, delta_color="off")
             with col2:
-                st.metric(label="Mastered Skill Count", value=learned_skill, delta_color="off")
+                st.metric(label="Kỹ năng đã thành thạo", value=learned_skill, delta_color="off")
             with col3:
-                st.metric(label="In-progress Skill Count", value=unlearned_skill, delta_color="off")
-            with st.expander("Skill Info"):
+                st.metric(label="Kỹ năng đang học", value=unlearned_skill, delta_color="off")
+            with st.expander("Thông tin kỹ năng"):
                 render_skill_info(goal["learner_profile"])
             
             col1, col2 = st.columns([7, 1])
             with col1:
-                if st.button("Edit", key=f"edit_{goal['id']}"):
-                    edited_goal = st.text_area("Edit Goal", value=goal["learning_goal"])
-                    if st.button("Save", key=f"save_{goal['id']}"):
+                if st.button("Sửa", key=f"edit_{goal['id']}"):
+                    edited_goal = st.text_area("Sửa mục tiêu", value=goal["learning_goal"])
+                    if st.button("Lưu", key=f"save_{goal['id']}"):
                         goal["learning_goal"] = edited_goal
-                        st.success("Goal updated successfully!")
+                        st.success("Cập nhật mục tiêu thành công!")
             with col2:
-                if st.button("Delete", key=f"delete_{goal['id']}", type="primary"):
+                if st.button("Xóa", key=f"delete_{goal['id']}", type="primary"):
                     goal_index = index_goal_by_id(goal["id"])
                     st.session_state.goals[goal_index]["is_deleted"] = True
                     try:
                         save_persistent_state()
                     except Exception:
                         pass
-                    st.success("Goal deleted successfully!")
+                    st.success("Đã xóa mục tiêu thành công!")
                     st.rerun()
         
         if goal_id < len(non_deleted_goals) - 1:
@@ -128,13 +128,13 @@ def render_existing_goals():
             
 
 
-@st.dialog("Skill Gap", width="large")
+@st.dialog("Lỗ hổng kỹ năng", width="large")
 def render_skill_gap_dialog():
     to_add_goal = st.session_state["to_add_goal"]
-    st.write("Review and confirm your skill gaps.")
+    st.write("Xem lại và xác nhận các lỗ hổng kỹ năng của bạn.")
     num_skills = len(to_add_goal["skill_gaps"])
     num_gaps = sum(1 for skill in to_add_goal["skill_gaps"] if skill["is_gap"])
-    st.info(f"There are {num_skills} skills in total, with {num_gaps} skill gaps identified.")
+    st.info(f"Có tổng cộng {num_skills} kỹ năng, với {num_gaps} lỗ hổng kỹ năng được xác định.")
     if not to_add_goal["skill_gaps"]:
         st.session_state["if_show_skill_gap_results_in_dialog"] = True
         try:
@@ -150,14 +150,14 @@ def render_skill_gap_dialog():
             pass
         render_identified_skill_gap(to_add_goal)
         if_schedule_learning_path_ready = to_add_goal["skill_gaps"]
-        if st.button("Schedule Learning Path", type="primary", disabled=not if_schedule_learning_path_ready):
+        if st.button("Lập lộ trình học tập", type="primary", disabled=not if_schedule_learning_path_ready):
             if to_add_goal["skill_gaps"] and not to_add_goal["learner_profile"]:
-                with st.spinner('Creating your profile ...'):
+                with st.spinner('Đang tạo hồ sơ của bạn ...'):
                     learner_profile = create_learner_profile(to_add_goal["learning_goal"], st.session_state["learner_information"], to_add_goal["skill_gaps"])
                     if learner_profile is None:
                         st.rerun()
                     to_add_goal["learner_profile"] = learner_profile
-                    st.toast("🎉 Your profile has been created!")
+                    st.toast("🎉 Hồ sơ của bạn đã được tạo!")
             new_goal_id = add_new_goal(**to_add_goal)
             st.session_state["selected_goal_id"] = new_goal_id
             try:

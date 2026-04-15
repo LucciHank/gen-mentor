@@ -7,11 +7,11 @@ from pathlib import Path
 from utils.request_api import get_available_models
 
 
-@st.dialog("Login")
+@st.dialog("Đăng nhập")
 def login():
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Submit", disabled=True):
+    username = st.text_input("Tên người dùng")
+    password = st.text_input("Mật khẩu", type="password")
+    if st.button("Xác nhận", disabled=True):
         st.session_state["logged_in"]  = True
         try:
             save_persistent_state()
@@ -19,7 +19,7 @@ def login():
             pass
         st.rerun()
     # currently not available
-    st.warning("Unavailable in this demo version.")
+    st.warning("Không khả dụng trong phiên bản demo này.")
 
 def logout():
     st.session_state["logged_in"] = False
@@ -47,7 +47,7 @@ def render_topbar():
         except Exception:
             backend_ok = False
         if not backend_ok:
-            st.warning("Backend not reachable. Please check your settings.")
+            st.warning("Không thể kết nối với Backend. Vui lòng kiểm tra cài đặt của bạn.")
             # open settings dialog so user can update `frontend/config.py`
             settings()
         st.session_state["checked_backend"] = True
@@ -79,7 +79,7 @@ def render_topbar():
     with col4:
         if st.session_state["logged_in"]:
             with st.popover("", icon=":material/account_circle:", use_container_width=True):
-                logout_button = st.button("Log-out", icon=":material/exit_to_app:")
+                logout_button = st.button("Đăng xuất", icon=":material/exit_to_app:")
                 if logout_button:
                     logout()
                     st.rerun()
@@ -88,7 +88,7 @@ def render_topbar():
                 login()
 
 
-@st.dialog("Settings")
+@st.dialog("Cài đặt")
 def settings():
     """Settings dialog to edit backend endpoint and LLM API key stored in frontend/config.py
 
@@ -98,13 +98,13 @@ def settings():
     is_valid_backend = False
     if_check_api = False
     cur_backend = getattr(config, "backend_endpoint", "http://127.0.0.1:5006/")
-    new_backend = st.text_input("Backend endpoint (include protocol and port)", value=cur_backend)
+    new_backend = st.text_input("Địa chỉ Backend (bao gồm giao thức và cổng)", value=cur_backend)
 
     st.markdown("---")
 
     col1, col3  = st.columns([2, 1])
     with col3:
-        if st.button("Check & Save", type="primary", use_container_width=True):
+        if st.button("Kiểm tra & Lưu", type="primary", use_container_width=True):
             if_check_api = True
             # normalize backend
             if not new_backend.endswith("/"):
@@ -127,12 +127,12 @@ def settings():
         st.session_state["available_models"] = model_id_list
         try:
             save_persistent_state()
-            st.success("Settings saved. Restarting app...")
+            st.success("Đã lưu cài đặt. Đang khởi động lại ứng dụng...")
             st.rerun()
         except Exception as e:
-            st.error(f"Failed to save settings: {e}")
+            st.error(f"Lưu cài đặt thất bại: {e}")
 
     if not is_valid_backend:
-        st.warning("Backend endpoint not reachable or invalid.")
-        st.info("Ensure the GenMentor backend API is running and the endpoint is correct, including protocol and port (e.g., http://127.0.0.1:5000/).")
-        st.info("Please refer to the [GenMentor Backend Setup Instructions](https://github.com/GeminiLight/gen-mentor/blob/main/backend/README.md) for more details on how to set up and run the backend service.")
+        st.warning("Địa chỉ Backend không thể kết nối hoặc không hợp lệ.")
+        st.info("Đảm bảo Backend API của GenMentor đang chạy và địa chỉ chính xác, bao gồm giao thức và cổng (ví dụ: http://127.0.0.1:5000/).")
+        st.info("Vui lòng tham khảo [Hướng dẫn cài đặt GenMentor Backend](https://github.com/GeminiLight/gen-mentor/blob/main/backend/README.md) để biết thêm chi tiết về cách thiết lập và chạy dịch vụ backend.")

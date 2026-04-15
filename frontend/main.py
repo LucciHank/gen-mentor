@@ -26,13 +26,13 @@ try:
 except Exception:
     pass
 
-@st.dialog("Confirm Reset")
+@st.dialog("Xác nhận thiết lập lại")
 def show_reset_dialog():
-    st.warning("All history will be cleared. Do you reset not?")
+    st.warning("Tất cả lịch sử sẽ bị xóa. Bạn có muốn thiết lập lại không?")
     st.divider()
     col_confirm, _space, col_cancel = st.columns([1, 2, 0.7])
     with col_confirm:
-        if st.button("Confirm", type="primary"):
+        if st.button("Xác nhận", type="primary"):
             from pathlib import Path
             from datetime import datetime
             import shutil
@@ -75,7 +75,7 @@ def show_reset_dialog():
                 except Exception:
                     pass
     with col_cancel:
-        if st.button("Cancel"):
+        if st.button("Hủy"):
             # simply rerun to close the dialog without changes
             try:
                 st.rerun()
@@ -89,16 +89,16 @@ if st.session_state["show_chatbot"]:
     render_chatbot()
 
 if st.session_state["if_complete_onboarding"]:
-    onboarding = st.Page("pages/onboarding.py", title="Onboarding", icon=":material/how_to_reg:", default=False, url_path="onboarding")
-    learning_path = st.Page("pages/learning_path.py", title="Learning Path", icon=":material/route:", default=True, url_path="learning_path")
+    onboarding = st.Page("pages/onboarding.py", title="Chào mừng", icon=":material/how_to_reg:", default=False, url_path="onboarding")
+    learning_path = st.Page("pages/learning_path.py", title="Lộ trình học tập", icon=":material/route:", default=True, url_path="learning_path")
 else:
-    onboarding = st.Page("pages/onboarding.py", title="Onboarding", icon=":material/how_to_reg:", default=True, url_path="onboarding")
-    learning_path = st.Page("pages/learning_path.py", title="Learning Path", icon=":material/route:", default=False, url_path="learning_path")
-skill_gaps = st.Page("pages/skill_gap.py", title="Skill Gap", icon=":material/insights:", default=False, url_path="skill_gap")
-knowledge_document = st.Page("pages/knowledge_document.py", title="Resume Learning", icon=":material/menu_book:", default=False, url_path="knowledge_document")
-learner_profile = st.Page("pages/learner_profile.py", title="My Profile", icon=":material/person:", default=False, url_path="learner_profile")
-goal_management = st.Page("pages/goal_management.py", title="Goal Management", icon=":material/flag:", default=False, url_path="goal_management")
-dashboard = st.Page("pages/dashboard.py", title="Analytics Dashboard", icon=":material/browse:", default=False, url_path="dashboard")
+    onboarding = st.Page("pages/onboarding.py", title="Chào mừng", icon=":material/how_to_reg:", default=True, url_path="onboarding")
+    learning_path = st.Page("pages/learning_path.py", title="Lộ trình học tập", icon=":material/route:", default=False, url_path="learning_path")
+skill_gaps = st.Page("pages/skill_gap.py", title="Lỗ hổng kỹ năng", icon=":material/insights:", default=False, url_path="skill_gap")
+knowledge_document = st.Page("pages/knowledge_document.py", title="Tiếp tục học tập", icon=":material/menu_book:", default=False, url_path="knowledge_document")
+learner_profile = st.Page("pages/learner_profile.py", title="Hồ sơ cá nhân", icon=":material/person:", default=False, url_path="learner_profile")
+goal_management = st.Page("pages/goal_management.py", title="Quản lý mục tiêu", icon=":material/flag:", default=False, url_path="goal_management")
+dashboard = st.Page("pages/dashboard.py", title="Bảng điều khiển phân tích", icon=":material/browse:", default=False, url_path="dashboard")
 
 # Learning Analytics Dashboard
 if not st.session_state["if_complete_onboarding"]:
@@ -110,7 +110,7 @@ else:
     with st.sidebar:
         _left, _center, _right = st.columns([2, 2, 2])
         with _center:
-            if st.button("Reset", help="Clear local history (keeps timestamped backups)"):
+            if st.button("Thiết lập lại", help="Xóa lịch sử cục bộ (giữ lại các bản sao lưu)"):
                 show_reset_dialog()
     goal = st.session_state["goals"][st.session_state["selected_goal_id"]]
     goal['start_time'] = time.time()

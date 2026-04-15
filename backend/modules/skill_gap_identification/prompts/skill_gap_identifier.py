@@ -37,6 +37,8 @@ Your role is to compare a learner's profile against a set of required skills (pr
     * `current_level` must be one of: "unlearned", "beginner", "intermediate", "advanced".
     * `required_level` will be provided in the input.
 7.  **Identify the Gap**: `is_gap` is `true` if the `current_level` is below the `required_level`, and `false` otherwise.
+8.  **Language**: Provide the `name` and `reason` for each skill in Vietnamese, but **strictly keep** `required_level` and `current_level` as the English values (unlearned, beginner, intermediate, advanced).
+9.  **Confidence Language**: Keep `level_confidence` values as English (low, medium, high).
 
 **Final Output Format**:
 Your output MUST be a valid JSON object matching this exact structure.

@@ -1,8 +1,11 @@
 import ast
 import json
 import time
+import logging
 import uvicorn
 import hydra
+
+logger = logging.getLogger(__name__)
 from omegaconf import DictConfig, OmegaConf
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, File, UploadFile, Form
@@ -19,7 +22,7 @@ from api_schemas import *
 from config import load_config
 
 app_config = load_config(config_name="main")
-search_rag_manager = SearchRagManager.from_config(app_config)
+search_rag_manager = None
 
 app = FastAPI()
 app.add_middleware(
@@ -34,6 +37,13 @@ def get_llm(model_provider: str | None = None, model_name: str | None = None, **
     model_provider = model_provider or app_config.llm.provider
     model_name = model_name or app_config.llm.model_name
     return LLMFactory.create(model=model_name, model_provider=model_provider, **kwargs)
+
+
+def get_search_rag_manager():
+    global search_rag_manager
+    if search_rag_manager is None:
+        search_rag_manager = SearchRagManager.from_config(app_config)
+    return search_rag_manager
 
 UPLOAD_LOCATION = "/mnt/datadrive/tfwang/code/llm-mentor/data/cv/"
 
@@ -62,7 +72,7 @@ async def chat_with_autor(request: ChatWithAutorRequest):
             llm,
             converted_messages,
             learner_profile,
-            search_rag_manager=search_rag_manager,
+            search_rag_manager=get_search_rag_manager(),
             use_search=True,
         )
         return {"response": response}
@@ -243,11 +253,32 @@ async def explore_knowledge_points(request: KnowledgePointExplorationRequest):
     learning_path = request.learning_path
     learning_session = request.learning_session
     if isinstance(learner_profile, str) and learner_profile.strip():
-        learner_profile = ast.literal_eval(learner_profile)
+        try:
+            learner_profile = ast.literal_eval(learner_profile)
+        except (SyntaxError, ValueError, TypeError) as e:
+            logger.error(f"Invalid learner_profile format: {str(e)}. Content: {learner_profile[:100]}")
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid learner_profile format: expected valid JSON/parseable string"
+            )
     if isinstance(learning_path, str) and learning_path.strip():
-        learning_path = ast.literal_eval(learning_path)
+        try:
+            learning_path = ast.literal_eval(learning_path)
+        except (SyntaxError, ValueError, TypeError) as e:
+            logger.error(f"Invalid learning_path format: {str(e)}. Content: {learning_path[:100]}")
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid learning_path format: expected valid JSON/parseable string"
+            )
     if isinstance(learning_session, str) and learning_session.strip():
-        learning_session = ast.literal_eval(learning_session)
+        try:
+            learning_session = ast.literal_eval(learning_session)
+        except (SyntaxError, ValueError, TypeError) as e:
+            logger.error(f"Invalid learning_session format: {str(e)}. Content: {learning_session[:100]}")
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid learning_session format: expected valid JSON/parseable string"
+            )
     try:
         knowledge_points = explore_knowledge_points_with_llm(llm, learner_profile, learning_path, learning_session)
         return knowledge_points

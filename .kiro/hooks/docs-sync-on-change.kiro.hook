@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "name": "Documentation Sync",
+  "description": "Monitors Python source files and prompts agent to update README.md or relevant documentation when code changes are detected",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.py",
+      "backend/**/*.py",
+      "frontend/**/*.py",
+      "backend/config/*.yaml",
+      "requirements.txt",
+      "backend/requirements.txt",
+      "frontend/requirements.txt"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source file has been modified. Please review the changes and update the relevant documentation in README.md or module-specific README files (backend/README.md or frontend/README.md) to reflect any new features, API changes, configuration updates, or architectural modifications."
+  }
+}

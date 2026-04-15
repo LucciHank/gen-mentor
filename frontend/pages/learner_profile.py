@@ -12,18 +12,18 @@ def render_learner_profile():
     # Title and introduction
     goal = st.session_state["goals"][st.session_state["selected_goal_id"]]
 
-    st.title("Learner Profile")
-    st.write("An overview of the learner's background, goals, progress, preferences, and behavioral patterns.")
+    st.title("Hồ sơ người học")
+    st.write("Tổng quan về lý lịch, mục tiêu, tiến độ, sở thích và các mẫu hành vi của người học.")
     if not goal["learner_profile"]:
-        with st.spinner('Identifying Skill Gap ...'):
-            st.info("Please complete the onboarding process to view the learner profile.")
+        with st.spinner('Đang xác định lỗ hổng kỹ năng ...'):
+            st.info("Vui lòng hoàn thành quá trình khởi đầu để xem hồ sơ người học.")
     else:
         try:
             render_learner_profile_info(goal)
         except Exception as e:
-            st.error("An error occurred while rendering the learner profile.")
+            st.error("Đã xảy ra lỗi khi hiển thị hồ sơ người học.")
             # re generate the learner profile
-            with st.spinner("Re-prepare your profile ..."):
+            with st.spinner("Đang chuẩn bị lại hồ sơ của bạn ..."):
                 learner_profile = create_learner_profile(goal["learning_goal"], st.session_state["learner_information"], goal["skill_gaps"], st.session_state["llm_type"])
             goal["learner_profile"] = learner_profile
             try:
@@ -56,11 +56,11 @@ def render_learner_profile_info(goal):
     learner_profile = goal["learner_profile"]
     with st.container(border=True):
         # Learner Information
-        st.markdown("#### 👤 Learner Information")
+        st.markdown("#### 👤 Thông tin người học")
         st.markdown(f"<div class='section'>{learner_profile['learner_information']}</div>", unsafe_allow_html=True)
 
         # Learning Goal
-        st.markdown("#### 🎯 Learning Goal")
+        st.markdown("#### 🎯 Mục tiêu học tập")
         st.markdown(f"<div class='section'>{learner_profile['learning_goal']}</div>", unsafe_allow_html=True)
 
     with st.container(border=True):
@@ -76,48 +76,48 @@ def render_learner_profile_info(goal):
 def render_cognitive_status(goal):
     learner_profile = goal["learner_profile"]
     # Cognitive Status
-    st.markdown("#### 🧠 Cognitive Status")
-    st.write("**Overall Progress:**")
+    st.markdown("#### 🧠 Trạng thái nhận thức")
+    st.write("**Tiến độ tổng thể:**")
     st.progress(learner_profile["cognitive_status"]["overall_progress"])
-    st.markdown(f"<p class='progress-indicator'>{learner_profile['cognitive_status']['overall_progress']}% completed</p>", unsafe_allow_html=True)
+    st.markdown(f"<p class='progress-indicator'>{learner_profile['cognitive_status']['overall_progress']}% đã hoàn thành</p>", unsafe_allow_html=True)
     render_skill_info(learner_profile)
 
 def render_learning_preferences(goal):
     learner_profile = goal["learner_profile"]
-    st.markdown("#### 📚 Learning Preferences")
-    st.write(f"**Content Style:** {learner_profile['learning_preferences']['content_style']}")
-    st.write(f"**Preferred Activity Type:** {learner_profile['learning_preferences']['activity_type']}")
-    st.write(f"**Additional Notes:**")
+    st.markdown("#### 📚 Sở thích học tập")
+    st.write(f"**Phong cách nội dung:** {learner_profile['learning_preferences']['content_style']}")
+    st.write(f"**Loại hoạt động ưa thích:** {learner_profile['learning_preferences']['activity_type']}")
+    st.write(f"**Ghi chú bổ sung:**")
     st.info(learner_profile['learning_preferences']['additional_notes'])
 
 def render_behavioral_patterns(goal):
     learner_profile = goal["learner_profile"]
-    st.markdown("#### 📊 Behavioral Patterns")
-    st.write(f"**System Usage Frequency:**")
+    st.markdown("#### 📊 Các mẫu hành vi")
+    st.write(f"**Tần suất sử dụng hệ thống:**")
     st.info(learner_profile['behavioral_patterns']['system_usage_frequency'])
-    st.write(f"**Session Duration and Engagement:**")
+    st.write(f"**Thời lượng buổi học và sự tham gia:**")
     st.info(learner_profile['behavioral_patterns']['session_duration_engagement'])
-    st.write(f"**Motivational Triggers:**")
+    st.write(f"**Các yếu tố thúc đẩy động lực:**")
     st.info(learner_profile['behavioral_patterns']['motivational_triggers'])
-    st.write(f"**Additional Notes:**")
+    st.write(f"**Ghi chú bổ sung:**")
     st.info(learner_profile['behavioral_patterns']['additional_notes'])
 
 
 def render_additional_info_form(goal):
     with st.form(key="additional_info_form"):
-        st.markdown("#### Value Your Feedback")
-        st.info("Help us improve your learning experience by providing your feedback below.")
-        st.write("How much do you agree with the current profile?")
+        st.markdown("#### Đánh giá của bạn")
+        st.info("Hãy giúp chúng tôi cải thiện trải nghiệm học tập của bạn bằng cách cung cấp phản hồi dưới đây.")
+        st.write("Bạn đồng ý bao nhiêu phần trăm với hồ sơ hiện tại?")
         agreement_star = st.feedback("stars", key="agreement_star")
-        st.write("Do you have any suggestions or corrections?")
-        suggestions = st.text_area("Provide your suggestions here.", label_visibility="collapsed")
-        st.write("Do you have any additional information to add?")
-        additional_info = st.text_area("Provide any additional information or feedback here.", label_visibility="collapsed")
-        pdf_file = st.file_uploader("Upload a PDF with additional information (e.g., resume)", type="pdf")
+        st.write("Bạn có đề xuất hoặc chỉnh sửa nào không?")
+        suggestions = st.text_area("Cung cấp đề xuất của bạn tại đây.", label_visibility="collapsed")
+        st.write("Bạn có thêm thông tin nào muốn bổ sung không?")
+        additional_info = st.text_area("Cung cấp thêm thông tin hoặc phản hồi tại đây.", label_visibility="collapsed")
+        pdf_file = st.file_uploader("Tải lên tệp PDF có thông tin bổ sung (ví dụ: CV)", type="pdf")
         if pdf_file is not None:
-            with st.spinner("Extracting text from PDF..."):
+            with st.spinner("Đang trích xuất văn bản từ PDF..."):
                 additional_info_pdf = extract_text_from_pdf(pdf_file)
-                st.toast("✅ PDF uploaded successfully.")
+                st.toast("✅ PDF đã được tải lên thành công.")
         else:
             additional_info_pdf = ""
         st.session_state["additional_info"] = {
@@ -129,7 +129,7 @@ def render_additional_info_form(goal):
             save_persistent_state()
         except Exception:
             pass
-        submit_button = st.form_submit_button("Update Profile", on_click=update_learner_profile_with_additional_info, 
+        submit_button = st.form_submit_button("Cập nhật hồ sơ", on_click=update_learner_profile_with_additional_info, 
                                               kwargs={"goal": goal, "additional_info": additional_info, }, type="primary")
         
 def update_learner_profile_with_additional_info(goal, additional_info):
@@ -141,9 +141,9 @@ def update_learner_profile_with_additional_info(goal, additional_info):
             save_persistent_state()
         except Exception:
             pass
-        st.toast("🎉 Successfully updated your profile!")
+        st.toast("🎉 Đã cập nhật hồ sơ của bạn thành công!")
     else:
-        st.toast("❌ Failed to update your profile. Please try again.")
+        st.toast("❌ Cập nhật hồ sơ thất bại. Vui lòng thử lại.")
 
 
 render_learner_profile()

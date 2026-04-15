@@ -70,26 +70,26 @@ def render_onboard():
             pass
     with center:
         render_topbar()
-        st.title("Onboarding GenMentor")
-        st.write("Start Your Goal-oriented and Personalized Learning Journey!")
+        st.title("Chào mừng đến với GenMentor")
+        st.write("Bắt đầu hành trình học tập cá nhân hóa và hướng mục tiêu của bạn!")
         render_cards_with_nav(goal)
         
 
 def render_goal(goal):
     idx = st.session_state.get("onboarding_card_index", 0)
     with st.container(border=True):
-        st.subheader("Set Learning Goal")
-        st.info("🚀 Please enter your role and specific learning goal. You can also refine it with AI suggestions.")
-        learning_goal = st.text_area("* Enter your learning goal", value=goal["learning_goal"], label_visibility="visible", disabled=st.session_state["if_refining_learning_goal"])
+        st.subheader("Thiết lập mục tiêu học tập")
+        st.info("🚀 Vui lòng nhập vai trò và mục tiêu học tập cụ thể của bạn. Bạn cũng có thể tinh chỉnh nó với các gợi ý từ AI.")
+        learning_goal = st.text_area("* Nhập mục tiêu học tập của bạn", value=goal["learning_goal"], label_visibility="visible", disabled=st.session_state["if_refining_learning_goal"])
         goal["learning_goal"] = learning_goal
         button_col, hint_col, next_col = st.columns([3, 10, 3])
         render_goal_refinement(goal, button_col, hint_col)
         save_persistent_state()
         with hint_col:
             if st.session_state["if_refining_learning_goal"]:
-                st.write("**✨ Refining learning goal...**")
+                st.write("**✨ Đang tinh chỉnh mục tiêu học tập...**")
         with next_col:
-            if st.button("Next", key="gm_nav_next", use_container_width=True, disabled=(idx == 1), type="primary"):
+            if st.button("Tiếp theo", key="gm_nav_next", use_container_width=True, disabled=(idx == 1), type="primary"):
                 st.session_state["onboarding_card_index"] = min(1, idx + 1)
                 try:
                     save_persistent_state()
@@ -103,20 +103,20 @@ def render_goal(goal):
 def render_information(goal):
     idx = st.session_state.get("onboarding_card_index", 0)
     with st.container(border=True):
-        st.subheader("Share Your Information")
-        st.info("🧠 Please provide your information (Text or PDF) to enhance personalized experience")
+        st.subheader("Chia sẻ thông tin của bạn")
+        st.info("🧠 Vui lòng cung cấp thông tin của bạn (Văn bản hoặc PDF) để tăng cường trải nghiệm cá nhân hóa")
 
-        occupations = ["Software Engineer", "Data Scientist", "AI Researcher", "Product Manager", "UI/UX Designer", "Other"]
+        occupations = ["Kỹ sư phần mềm", "Nhà khoa học dữ liệu", "Nhà nghiên cứu AI", "Quản lý sản phẩm", "Nhà thiết kế UI/UX", "Khác"]
         try:
             occupation_selectbox_index = occupations.index(st.session_state["learner_occupation"]) 
         except ValueError:
             occupation_selectbox_index = None
         ocp_left, ocp_right = st.columns([1, 1])
         with ocp_left:
-            selected_occupation = st.selectbox("Select your occupation", occupations, index=occupation_selectbox_index)
-        if selected_occupation == "Other":
+            selected_occupation = st.selectbox("Chọn nghề nghiệp của bạn", occupations, index=occupation_selectbox_index)
+        if selected_occupation == "Khác":
             with ocp_right:
-                other_occupation = st.text_input("Please specify your occupation")
+                other_occupation = st.text_input("Vui lòng ghi rõ nghề nghiệp của bạn")
             if other_occupation:
                 st.session_state["learner_occupation"] = other_occupation
                 try:
@@ -137,15 +137,15 @@ def render_information(goal):
                 pass
         upload_col, information_col = st.columns([1, 1])
         with upload_col:
-            uploaded_file = st.file_uploader("[Optional] Upload a PDF with your information (e.g., resume)", type="pdf")
+            uploaded_file = st.file_uploader("[Tùy chọn] Tải lên tệp PDF thông tin của bạn (ví dụ: CV)", type="pdf")
             if uploaded_file is not None:
-                with st.spinner("Extracting text from PDF..."):
+                with st.spinner("Đang trích xuất văn bản từ PDF..."):
                     learner_information_pdf = extract_text_from_pdf(uploaded_file)
-                    st.toast("✅ PDF uploaded successfully.")
+                    st.toast("✅ PDF đã được tải lên thành công.")
             else:
                 learner_information_pdf = ""
         with information_col:
-            learner_information_text = st.text_area("[Optional] Enter your learning perferences and style", value=st.session_state["learner_information_text"], label_visibility="visible", height=77)
+            learner_information_text = st.text_area("[Tùy chọn] Nhập sở thích và phong cách học tập của bạn", value=st.session_state["learner_information_text"], label_visibility="visible", height=77)
             st.session_state["learner_information"] = st.session_state["learner_occupation"] + learner_information_text + learner_information_pdf
             try:
                 save_persistent_state()
@@ -155,7 +155,7 @@ def render_information(goal):
         arrow_left, space_col, continue_button_col = st.columns([3, 10, 3])
         save_persistent_state()
         with arrow_left:
-            if st.button("Previous", key="gm_nav_prev", use_container_width=True, disabled=(idx == 0)):
+            if st.button("Quay lại", key="gm_nav_prev", use_container_width=True, disabled=(idx == 0)):
                 st.session_state["onboarding_card_index"] = max(0, idx - 1)
                 try:
                     save_persistent_state()
@@ -166,9 +166,9 @@ def render_information(goal):
             render_continue_button(goal)
 
 def render_continue_button(goal):
-    if st.button("Save & Continue", type="primary"):
+    if st.button("Lưu & Tiếp tục", type="primary"):
         if not goal["learning_goal"] or not st.session_state["learner_occupation"]:
-            st.warning("Please provide both a learning goal and your occupation before continuing.")
+            st.warning("Vui lòng cung cấp cả mục tiêu học tập và nghề nghiệp của bạn trước khi tiếp tục.")
         else:
             st.session_state["selected_page"] = "Skill Gap"
             try:

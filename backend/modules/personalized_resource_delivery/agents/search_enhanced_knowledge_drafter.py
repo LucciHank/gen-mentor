@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import ast
+import logging
 from typing import Any, Mapping, Optional, List
 from concurrent.futures import ThreadPoolExecutor
+
+logger = logging.getLogger(__name__)
 
 from pydantic import BaseModel, field_validator
 
@@ -42,8 +45,13 @@ class SearchEnhancedKnowledgeDrafter(BaseAgent):
 
     def __init__(self, model: Any, *, search_rag_manager: Optional[SearchRagManager] = None, use_search: bool = True):
         super().__init__(model=model, system_prompt=search_enhanced_knowledge_drafter_system_prompt, jsonalize_output=True)
-        self.search_rag_manager = search_rag_manager or SearchRagManager.from_config(default_config)
         self.use_search = use_search
+        if search_rag_manager is not None:
+            self.search_rag_manager = search_rag_manager
+        elif use_search:
+            self.search_rag_manager = SearchRagManager.from_config(default_config)
+        else:
+            self.search_rag_manager = None
 
     def draft(self, payload: KnowledgeDraftPayload | Mapping[str, Any] | str):
         if not isinstance(payload, KnowledgeDraftPayload):
@@ -102,25 +110,50 @@ def draft_knowledge_points_with_llm(
 ):
     """Draft multiple knowledge points in parallel or sequentially using the agent."""
     if isinstance(learning_session, str):
-        learning_session = ast.literal_eval(learning_session)
+        try:
+            learning_session = ast.literal_eval(learning_session)
+        except (SyntaxError, ValueError, TypeError) as e:
+            logger.error(f"Invalid learning_session format: {str(e)}. Content: {learning_session[:100]}")
+            raise ValueError(f"Invalid learning_session format: expected valid JSON/parseable string. Error: {str(e)}")
     if isinstance(knowledge_points, str):
-        knowledge_points = ast.literal_eval(knowledge_points)
+        try:
+            knowledge_points = ast.literal_eval(knowledge_points)
+        except (SyntaxError, ValueError, TypeError) as e:
+            logger.error(f"Invalid knowledge_points format: {str(e)}. Content: {knowledge_points[:100]}")
+            raise ValueError(f"Invalid knowledge_points format: expected valid JSON/parseable string. Error: {str(e)}")
     if search_rag_manager is None and use_search:
-        search_rag_manager = SearchRagManager.from_config(default_config)
+        try:
+            search_rag_manager = SearchRagManager.from_config(default_config)
+        except Exception as e:
+            logger.error(f"Failed to initialize SearchRagManager: {str(e)}")
+            search_rag_manager = None
     def draft_one(kp):
-        return draft_knowledge_point_with_llm(
-            llm,
-            learner_profile,
-            learning_path,
-            learning_session,
-            knowledge_points,
-            kp,
-            use_search=use_search,
-            search_rag_manager=search_rag_manager,
-        )
+        try:
+            return draft_knowledge_point_with_llm(
+                llm,
+                learner_profile,
+                learning_path,
+                learning_session,
+                knowledge_points,
+                kp,
+                use_search=use_search,
+                search_rag_manager=search_rag_manager,
+            )
+        except Exception as e:
+            kp_name = kp.get('name', 'unknown') if isinstance(kp, dict) else str(kp)
+            logger.error(f"Failed to draft knowledge point '{kp_name}': {str(e)}", exc_info=True)
+            return {
+                "error": True,
+                "error_message": str(e),
+                "error_type": type(e).__name__,
+                "knowledge_point": kp,
+                "name": kp_name,
+                "status": "failed"
+            }
 
     if allow_parallel:
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # Use list() to consume all results - exceptions are now handled inside draft_one
             return list(executor.map(draft_one, knowledge_points))
     else:
         results: List[Any] = []

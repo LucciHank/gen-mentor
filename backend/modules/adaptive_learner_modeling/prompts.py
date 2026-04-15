@@ -78,6 +78,7 @@ adaptive_learner_profiler_basic_system_prompt_requirements = """
 - `proficiency_level` should be one of: "unleared", "beginner", "intermediate", "advanced".
 - Ensure that the output captures the most critical elements of the learner's current status, preferences, and challenges.
 - The profile should include any information that may impact the learner's learning experience and progress.
+- **Language**: Provide all text values (summaries, names, preferences, patterns, notes) in Vietnamese, but **strictly keep** `proficiency_level` names (unlearned, beginner, intermediate, advanced) in English.
 """
 
 adaptive_learner_profiler_direct_system_prompt = adaptive_learner_profiler_system_prompt_base + adaptive_learner_profiler_basic_system_prompt_requirements

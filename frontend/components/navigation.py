@@ -6,16 +6,16 @@ def render_navigation():
     import time
     start = time.time()
     # st.write('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allow_html=True)
-    pages = ["Onboarding", "Goal Management", "Learning Path", "Learner Profile", "Dashboard"]
+    pages = ["Chào mừng", "Quản lý mục tiêu", "Lộ trình học tập", "Hồ sơ cá nhân", "Bảng điều khiển phân tích"]
     icons = ["house", "clipboard-check", "flag", "person", "grid"]
     page_to_mean_dict = {
-        "Onboarding": "Onboarding",
-        "Skill Gap": "Onboarding",
-        "Goal Management": "Goal Management",
-        "Learning Path": "Learning Path",
-        "Knowledge Document": "Learning Path",
-        "Learner Profile": "Learner Profile",
-        "Dashboard": "Dashboard",
+        "Onboarding": "Chào mừng",
+        "Skill Gap": "Chào mừng",
+        "Goal Management": "Quản lý mục tiêu",
+        "Learning Path": "Lộ trình học tập",
+        "Knowledge Document": "Lộ trình học tập",
+        "Learner Profile": "Hồ sơ cá nhân",
+        "Dashboard": "Bảng điều khiển phân tích",
     }
     with st.sidebar:
         # styles = {"container": {"padding": "0.2rem 0", "background-color": "#22222200"}}
