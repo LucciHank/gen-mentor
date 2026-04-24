@@ -1,0 +1,17 @@
+2026-04-22 15:24:45.209 Uncaught app execution
+Traceback (most recent call last):
+  File "C:\Users\admin\Documents\GitHub\gen-mentor\frontend\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+             ^^^^^^
+  File "C:\Users\admin\Documents\GitHub\gen-mentor\frontend\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 687, in code_to_exec
+    _mpa_v1(self._main_script_path)
+  File "C:\Users\admin\Documents\GitHub\gen-mentor\frontend\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 166, in _mpa_v1
+    page.run()
+  File "C:\Users\admin\Documents\GitHub\gen-mentor\frontend\.venv\Lib\site-packages\streamlit\navigation\page.py", line 490, in run
+    exec(code, module.__dict__)  # noqa: S102
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\Documents\GitHub\gen-mentor\frontend\pages\create_roadmap.py", line 4, in <module>
+    from components.topbar import render_topbar
+  File "C:\Users\admin\Documents\GitHub\gen-mentor\frontend\components\__init__.py", line 1, in <module>
+    from .chatbot import render_chatbot
+ModuleNotFoundError: No module named 'components.chatbot'

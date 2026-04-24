@@ -21,10 +21,18 @@ from modules.ai_chatbot_tutor import chat_with_tutor_with_llm
 from api_schemas import *
 from config import load_config
 
+# Import MVP API routes
+from mvp_api import add_mvp_routes
+
 app_config = load_config(config_name="main")
 search_rag_manager = None
 
-app = FastAPI()
+app = FastAPI(
+    title="GenMentor API",
+    description="AI-powered personalized learning platform",
+    version="1.0.0"
+)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,6 +40,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add MVP routes
+add_mvp_routes(app, app_config)
 
 def get_llm(model_provider: str | None = None, model_name: str | None = None, **kwargs):
     model_provider = model_provider or app_config.llm.provider

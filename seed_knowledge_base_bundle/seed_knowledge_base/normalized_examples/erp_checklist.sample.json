@@ -1,0 +1,13 @@
+[
+  {
+    "checklist_id": "ERPCHK001",
+    "process_name": "Create Sales Order",
+    "step_no": 2,
+    "step_title": "Chọn đúng khách hàng",
+    "must_do": "Tra mã khách từ master data",
+    "validation_rule": "Không nhập tay nếu tìm được trong master",
+    "owner_role": "ERP Operations Staff",
+    "skill_id": "SK_ERP_DATA_HYGIENE",
+    "failure_risk": "high"
+  }
+]

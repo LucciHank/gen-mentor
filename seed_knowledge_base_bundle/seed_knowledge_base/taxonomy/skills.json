@@ -1,0 +1,110 @@
+[
+  {
+    "skill_id": "SK_AI_LITERACY",
+    "name": "AI literacy",
+    "domain": "AI",
+    "description": "Hiểu khái niệm, cơ hội, rủi ro và nguyên tắc sử dụng AI."
+  },
+  {
+    "skill_id": "SK_PROMPT_BASIC",
+    "name": "Prompting cơ bản",
+    "domain": "AI",
+    "description": "Viết prompt rõ mục tiêu, ngữ cảnh, format đầu ra."
+  },
+  {
+    "skill_id": "SK_PROMPT_STRUCTURED",
+    "name": "Prompting có cấu trúc",
+    "domain": "AI",
+    "description": "Tách vai trò, nhiệm vụ, tiêu chí, format và ràng buộc."
+  },
+  {
+    "skill_id": "SK_AI_TOOL_USE",
+    "name": "Sử dụng AI tools",
+    "domain": "AI",
+    "description": "Dùng chatbot, summarization, extraction, drafting, translation đúng ngữ cảnh."
+  },
+  {
+    "skill_id": "SK_AI_SAFETY",
+    "name": "AI safety & governance",
+    "domain": "AI",
+    "description": "Bảo mật dữ liệu, giới hạn nội dung và kiểm chứng đầu ra."
+  },
+  {
+    "skill_id": "SK_WORKFLOW_THINKING",
+    "name": "Workflow thinking",
+    "domain": "AI Agent",
+    "description": "Phân rã bài toán thành input, process, output, control."
+  },
+  {
+    "skill_id": "SK_TOOL_CALLING",
+    "name": "Tool calling basics",
+    "domain": "AI Agent",
+    "description": "Hiểu agent gọi tool/API và cách thiết kế input-output."
+  },
+  {
+    "skill_id": "SK_AGENT_DESIGN",
+    "name": "AI agent design",
+    "domain": "AI Agent",
+    "description": "Thiết kế luồng agent, retrieval, validation và fallback."
+  },
+  {
+    "skill_id": "SK_ERP_ORDER_ENTRY",
+    "name": "ERP order entry",
+    "domain": "ERP",
+    "description": "Tạo đơn hàng, nhập trường dữ liệu bắt buộc và kiểm tra lỗi."
+  },
+  {
+    "skill_id": "SK_ERP_REQUEST_APPROVAL",
+    "name": "ERP request approval",
+    "domain": "ERP",
+    "description": "Phê duyệt yêu cầu đúng thẩm quyền và luồng xử lý."
+  },
+  {
+    "skill_id": "SK_ERP_DATA_HYGIENE",
+    "name": "ERP data hygiene",
+    "domain": "ERP",
+    "description": "Chuẩn hóa mã hàng, mã khách, đơn vị tính, tránh sai lệch dữ liệu."
+  },
+  {
+    "skill_id": "SK_SOP_COMPLIANCE",
+    "name": "SOP compliance",
+    "domain": "Operations",
+    "description": "Tuân thủ bước quy trình và checklist."
+  },
+  {
+    "skill_id": "SK_SOFTWARE_PROCESS",
+    "name": "Software development process",
+    "domain": "Software Process",
+    "description": "Nắm vòng đời phát triển phần mềm và phối hợp nhóm."
+  },
+  {
+    "skill_id": "SK_TICKET_WRITING",
+    "name": "Ticket / task writing",
+    "domain": "Software Process",
+    "description": "Viết ticket, task, report rõ ràng, đủ dữ liệu."
+  },
+  {
+    "skill_id": "SK_GIT_FLOW",
+    "name": "Git flow & release flow",
+    "domain": "Software Process",
+    "description": "Nhánh feature, review, merge, release cơ bản."
+  },
+  {
+    "skill_id": "SK_CODE_REVIEW",
+    "name": "Code review basics",
+    "domain": "Software Process",
+    "description": "Kiểm tra logic, test, naming, security, maintainability."
+  },
+  {
+    "skill_id": "SK_PROJECT_EXECUTION",
+    "name": "Mini project execution",
+    "domain": "Project",
+    "description": "Biết lên kế hoạch và hoàn thành bài thực hành."
+  },
+  {
+    "skill_id": "SK_REPORTING",
+    "name": "Reporting & communication",
+    "domain": "Professional",
+    "description": "Báo cáo tiến độ, blocker và kết quả rõ ràng."
+  }
+]

@@ -1,0 +1,632 @@
+[
+  {
+    "document_id": "DOC_001",
+    "title": "Cac_use_case_AI_trong_doanh_nghiep",
+    "file_name": "Cac_use_case_AI_trong_doanh_nghiep.docx",
+    "relative_path": "raw/docx/AI/Cac_use_case_AI_trong_doanh_nghiep.docx",
+    "file_type": ".docx",
+    "topic": "AI",
+    "content_type": "lesson",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_002",
+    "title": "Huong_dan_su_dung_ChatGPT_trong_cong_viec",
+    "file_name": "Huong_dan_su_dung_ChatGPT_trong_cong_viec.docx",
+    "relative_path": "raw/docx/AI/Huong_dan_su_dung_ChatGPT_trong_cong_viec.docx",
+    "file_type": ".docx",
+    "topic": "AI",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_003",
+    "title": "Quy_chuan_prompt_noi_bo",
+    "file_name": "Quy_chuan_prompt_noi_bo.docx",
+    "relative_path": "raw/docx/AI/Quy_chuan_prompt_noi_bo.docx",
+    "file_type": ".docx",
+    "topic": "AI",
+    "content_type": "lesson",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_004",
+    "title": "Huong_dan_nhap_lieu_ERP",
+    "file_name": "Huong_dan_nhap_lieu_ERP.docx",
+    "relative_path": "raw/docx/ERP_SOP/Huong_dan_nhap_lieu_ERP.docx",
+    "file_type": ".docx",
+    "topic": "ERP_SOP",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_NEW_HIRE_ONBOARDING"
+    ],
+    "skill_tags": [
+      "SK_ERP_ORDER_ENTRY",
+      "SK_ERP_REQUEST_APPROVAL",
+      "SK_ERP_DATA_HYGIENE",
+      "SK_SOP_COMPLIANCE"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_005",
+    "title": "SOP_duyet_yeu_cau",
+    "file_name": "SOP_duyet_yeu_cau.docx",
+    "relative_path": "raw/docx/ERP_SOP/SOP_duyet_yeu_cau.docx",
+    "file_type": ".docx",
+    "topic": "ERP_SOP",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_NEW_HIRE_ONBOARDING"
+    ],
+    "skill_tags": [
+      "SK_ERP_ORDER_ENTRY",
+      "SK_ERP_REQUEST_APPROVAL",
+      "SK_ERP_DATA_HYGIENE",
+      "SK_SOP_COMPLIANCE"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_006",
+    "title": "SOP_tao_don_hang",
+    "file_name": "SOP_tao_don_hang.docx",
+    "relative_path": "raw/docx/ERP_SOP/SOP_tao_don_hang.docx",
+    "file_type": ".docx",
+    "topic": "ERP_SOP",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_NEW_HIRE_ONBOARDING"
+    ],
+    "skill_tags": [
+      "SK_ERP_ORDER_ENTRY",
+      "SK_ERP_REQUEST_APPROVAL",
+      "SK_ERP_DATA_HYGIENE",
+      "SK_SOP_COMPLIANCE"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_007",
+    "title": "Cach_viet_ticket_task_report",
+    "file_name": "Cach_viet_ticket_task_report.docx",
+    "relative_path": "raw/docx/Software_Process/Cach_viet_ticket_task_report.docx",
+    "file_type": ".docx",
+    "topic": "Software_Process",
+    "content_type": "lesson",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_JUNIOR_SOFTWARE_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_SOFTWARE_PROCESS",
+      "SK_TICKET_WRITING",
+      "SK_GIT_FLOW",
+      "SK_CODE_REVIEW",
+      "SK_REPORTING",
+      "SK_PROJECT_EXECUTION"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_008",
+    "title": "Quy_trinh_phat_trien_phan_mem_chuan",
+    "file_name": "Quy_trinh_phat_trien_phan_mem_chuan.docx",
+    "relative_path": "raw/docx/Software_Process/Quy_trinh_phat_trien_phan_mem_chuan.docx",
+    "file_type": ".docx",
+    "topic": "Software_Process",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_JUNIOR_SOFTWARE_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_SOFTWARE_PROCESS",
+      "SK_TICKET_WRITING",
+      "SK_GIT_FLOW",
+      "SK_CODE_REVIEW",
+      "SK_REPORTING",
+      "SK_PROJECT_EXECUTION"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_009",
+    "title": "Handbook_AI_Foundations",
+    "file_name": "Handbook_AI_Foundations.pdf",
+    "relative_path": "raw/pdf/AI/Handbook_AI_Foundations.pdf",
+    "file_type": ".pdf",
+    "topic": "AI",
+    "content_type": "lesson",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_010",
+    "title": "Slide_AI_Agent_Basics",
+    "file_name": "Slide_AI_Agent_Basics.pdf",
+    "relative_path": "raw/pdf/AI/Slide_AI_Agent_Basics.pdf",
+    "file_type": ".pdf",
+    "topic": "AI",
+    "content_type": "lesson",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_011",
+    "title": "Cam_nang_onboarding_ops",
+    "file_name": "Cam_nang_onboarding_ops.pdf",
+    "relative_path": "raw/pdf/ERP_SOP/Cam_nang_onboarding_ops.pdf",
+    "file_type": ".pdf",
+    "topic": "ERP_SOP",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_NEW_HIRE_ONBOARDING"
+    ],
+    "skill_tags": [
+      "SK_ERP_ORDER_ENTRY",
+      "SK_ERP_REQUEST_APPROVAL",
+      "SK_ERP_DATA_HYGIENE",
+      "SK_SOP_COMPLIANCE"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_012",
+    "title": "Quy_trinh_van_hanh_noi_bo",
+    "file_name": "Quy_trinh_van_hanh_noi_bo.pdf",
+    "relative_path": "raw/pdf/ERP_SOP/Quy_trinh_van_hanh_noi_bo.pdf",
+    "file_type": ".pdf",
+    "topic": "ERP_SOP",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_NEW_HIRE_ONBOARDING"
+    ],
+    "skill_tags": [
+      "SK_ERP_ORDER_ENTRY",
+      "SK_ERP_REQUEST_APPROVAL",
+      "SK_ERP_DATA_HYGIENE",
+      "SK_SOP_COMPLIANCE"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_013",
+    "title": "Checklist_code_review",
+    "file_name": "Checklist_code_review.pdf",
+    "relative_path": "raw/pdf/Software_Process/Checklist_code_review.pdf",
+    "file_type": ".pdf",
+    "topic": "Software_Process",
+    "content_type": "checklist",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_JUNIOR_SOFTWARE_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_SOFTWARE_PROCESS",
+      "SK_TICKET_WRITING",
+      "SK_GIT_FLOW",
+      "SK_CODE_REVIEW",
+      "SK_REPORTING",
+      "SK_PROJECT_EXECUTION"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_014",
+    "title": "Huong_dan_Git_flow_release_flow",
+    "file_name": "Huong_dan_Git_flow_release_flow.pdf",
+    "relative_path": "raw/pdf/Software_Process/Huong_dan_Git_flow_release_flow.pdf",
+    "file_type": ".pdf",
+    "topic": "Software_Process",
+    "content_type": "sop",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_JUNIOR_SOFTWARE_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_SOFTWARE_PROCESS",
+      "SK_TICKET_WRITING",
+      "SK_GIT_FLOW",
+      "SK_CODE_REVIEW",
+      "SK_REPORTING",
+      "SK_PROJECT_EXECUTION"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "parse_to_markdown_then_chunk"
+  },
+  {
+    "document_id": "DOC_015",
+    "title": "AI_course_skill_mapping",
+    "file_name": "AI_course_skill_mapping.xlsx",
+    "relative_path": "raw/xlsx/AI/AI_course_skill_mapping.xlsx",
+    "file_type": ".xlsx",
+    "topic": "AI",
+    "content_type": "course_mapping",
+    "status": "approved",
+    "can_use_for_generation": false,
+    "can_use_for_assessment": false,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  },
+  {
+    "document_id": "DOC_016",
+    "title": "AI_skill_matrix",
+    "file_name": "AI_skill_matrix.xlsx",
+    "relative_path": "raw/xlsx/AI/AI_skill_matrix.xlsx",
+    "file_type": ".xlsx",
+    "topic": "AI",
+    "content_type": "skill_matrix",
+    "status": "approved",
+    "can_use_for_generation": false,
+    "can_use_for_assessment": false,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  },
+  {
+    "document_id": "DOC_017",
+    "title": "Question_bank_AI_Foundation",
+    "file_name": "Question_bank_AI_Foundation.xlsx",
+    "relative_path": "raw/xlsx/Assessment/Question_bank_AI_Foundation.xlsx",
+    "file_type": ".xlsx",
+    "topic": "Assessment",
+    "content_type": "assessment_bank",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN",
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_JUNIOR_SOFTWARE_STAFF"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  },
+  {
+    "document_id": "DOC_018",
+    "title": "Question_bank_ERP",
+    "file_name": "Question_bank_ERP.xlsx",
+    "relative_path": "raw/xlsx/Assessment/Question_bank_ERP.xlsx",
+    "file_type": ".xlsx",
+    "topic": "Assessment",
+    "content_type": "assessment_bank",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN",
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_JUNIOR_SOFTWARE_STAFF"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  },
+  {
+    "document_id": "DOC_019",
+    "title": "Rubric_mini_project",
+    "file_name": "Rubric_mini_project.xlsx",
+    "relative_path": "raw/xlsx/Assessment/Rubric_mini_project.xlsx",
+    "file_type": ".xlsx",
+    "topic": "Assessment",
+    "content_type": "assessment_bank",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_AI_FOUNDATION_STAFF",
+      "ROLE_AI_AGENT_INTERN",
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_JUNIOR_SOFTWARE_STAFF"
+    ],
+    "skill_tags": [
+      "SK_AI_LITERACY",
+      "SK_PROMPT_BASIC",
+      "SK_PROMPT_STRUCTURED",
+      "SK_AI_TOOL_USE",
+      "SK_AI_SAFETY",
+      "SK_WORKFLOW_THINKING"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  },
+  {
+    "document_id": "DOC_020",
+    "title": "Checklist_thao_tac_ERP",
+    "file_name": "Checklist_thao_tac_ERP.xlsx",
+    "relative_path": "raw/xlsx/ERP_SOP/Checklist_thao_tac_ERP.xlsx",
+    "file_type": ".xlsx",
+    "topic": "ERP_SOP",
+    "content_type": "checklist",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_NEW_HIRE_ONBOARDING"
+    ],
+    "skill_tags": [
+      "SK_ERP_ORDER_ENTRY",
+      "SK_ERP_REQUEST_APPROVAL",
+      "SK_ERP_DATA_HYGIENE",
+      "SK_SOP_COMPLIANCE"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  },
+  {
+    "document_id": "DOC_021",
+    "title": "FAQ_noi_bo_va_ma_loi",
+    "file_name": "FAQ_noi_bo_va_ma_loi.xlsx",
+    "relative_path": "raw/xlsx/ERP_SOP/FAQ_noi_bo_va_ma_loi.xlsx",
+    "file_type": ".xlsx",
+    "topic": "ERP_SOP",
+    "content_type": "faq",
+    "status": "approved",
+    "can_use_for_generation": true,
+    "can_use_for_assessment": true,
+    "role_tags": [
+      "ROLE_ERP_OPERATIONS_STAFF",
+      "ROLE_NEW_HIRE_ONBOARDING"
+    ],
+    "skill_tags": [
+      "SK_ERP_ORDER_ENTRY",
+      "SK_ERP_REQUEST_APPROVAL",
+      "SK_ERP_DATA_HYGIENE",
+      "SK_SOP_COMPLIANCE"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  },
+  {
+    "document_id": "DOC_022",
+    "title": "Skill_matrix_junior_dev_AI_agent_intern",
+    "file_name": "Skill_matrix_junior_dev_AI_agent_intern.xlsx",
+    "relative_path": "raw/xlsx/Software_Process/Skill_matrix_junior_dev_AI_agent_intern.xlsx",
+    "file_type": ".xlsx",
+    "topic": "Software_Process",
+    "content_type": "skill_matrix",
+    "status": "approved",
+    "can_use_for_generation": false,
+    "can_use_for_assessment": false,
+    "role_tags": [
+      "ROLE_JUNIOR_SOFTWARE_STAFF",
+      "ROLE_AI_AGENT_INTERN"
+    ],
+    "skill_tags": [
+      "SK_SOFTWARE_PROCESS",
+      "SK_TICKET_WRITING",
+      "SK_GIT_FLOW",
+      "SK_CODE_REVIEW",
+      "SK_REPORTING",
+      "SK_PROJECT_EXECUTION"
+    ],
+    "level_tags": [
+      "beginner",
+      "intermediate"
+    ],
+    "ingest_strategy": "convert_rows_to_json"
+  }
+]

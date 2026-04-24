@@ -1,0 +1,67 @@
+[
+  {
+    "name": "AI Engineer",
+    "description": "Develops and implements AI/ML solutions, builds intelligent systems",
+    "category": "Technology",
+    "level": "advanced",
+    "required_skills": ["Python Programming", "Machine Learning", "Deep Learning", "API Development"],
+    "typical_responsibilities": [
+      "Design and implement ML models",
+      "Build AI-powered applications",
+      "Optimize model performance",
+      "Deploy models to production"
+    ]
+  },
+  {
+    "name": "Data Scientist",
+    "description": "Analyzes data to extract business insights and build predictive models",
+    "category": "Analytics",
+    "level": "intermediate",
+    "required_skills": ["Python Programming", "Data Analysis", "Machine Learning", "SQL", "Data Visualization"],
+    "typical_responsibilities": [
+      "Analyze complex datasets",
+      "Build predictive models",
+      "Create data visualizations",
+      "Present findings to stakeholders"
+    ]
+  },
+  {
+    "name": "Software Developer",
+    "description": "Builds software applications and systems using various technologies",
+    "category": "Technology",
+    "level": "intermediate",
+    "required_skills": ["Python Programming", "API Development", "SQL", "Project Management"],
+    "typical_responsibilities": [
+      "Write clean, maintainable code",
+      "Design software architecture",
+      "Implement business requirements",
+      "Test and debug applications"
+    ]
+  },
+  {
+    "name": "ERP Consultant",
+    "description": "Implements and configures ERP systems for business optimization",
+    "category": "Business",
+    "level": "intermediate",
+    "required_skills": ["ERP Configuration", "Process Modeling", "Project Management", "Data Analysis"],
+    "typical_responsibilities": [
+      "Configure ERP modules",
+      "Map business processes",
+      "Train end users",
+      "Provide ongoing support"
+    ]
+  },
+  {
+    "name": "Business Analyst",
+    "description": "Analyzes business processes and requirements to improve efficiency",
+    "category": "Business",
+    "level": "beginner",
+    "required_skills": ["Process Modeling", "Data Analysis", "Project Management"],
+    "typical_responsibilities": [
+      "Gather business requirements",
+      "Document processes",
+      "Identify improvement opportunities",
+      "Facilitate stakeholder meetings"
+    ]
+  }
+]

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMentor - Đang tạo lộ trình</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background-color: #F7F7F8;
+            color: #1D1D1F;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #E5E5E7;
+            padding: 24px 0;
+        }
+
+        .logo {
+            padding: 0 24px 32px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #007AFF;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            color: #86868B;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .nav-item.active {
+            background: #007AFF0A;
+            color: #007AFF;
+            border-right: 2px solid #007AFF;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .generating-container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E5E5E7;
+            border-radius: 2px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #007AFF;
+            width: 71.4%; /* 5/7 steps */
+            transition: width 0.3s ease;
+        }
+
+        .generating-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #007AFF, #5AC8FA);
+            border-radius: 40px;
+            margin: 0 auto 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .generating-icon::after {
+            content: "🤖";
+            font-size: 32px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(0, 122, 255, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 122, 255, 0);
+            }
+        }
+
+        .generating-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1D1D1F;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .generating-subtitle {
+            font-size: 18px;
+            color: #86868B;
+            margin-bottom: 40px;
+        }
+
+        .progress-steps {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 1px solid #E5E5E7;
+            text-align: left;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #F0F0F0;
+            transition: all 0.3s ease;
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .step-icon.completed {
+            background: #34C759;
+            color: white;
+        }
+
+        .step-icon.active {
+            background: #007AFF;
+            color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        .step-icon.pending {
+            background: #F7F7F8;
+            color: #86868B;
+            border: 1px solid #E5E5E7;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 4px;
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: #86868B;
+        }
+
+        .step-item.active .step-title {
+            color: #007AFF;
+        }
+
+        .step-item.active .step-description {
+            color: #007AFF;
+        }
+
+        .estimated-time {
+            background: #F7F7F8;
+            border: 1px solid #E5E5E7;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .time-icon {
+            width: 24px;
+            height: 24px;
+            background: #007AFF;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .time-text {
+            font-size: 16px;
+            color: #1D1D1F;
+        }
+
+        .time-remaining {
+            font-weight: 600;
+            color: #007AFF;
+        }
+
+        .skeleton-roadmap {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #E5E5E7;
+            margin-bottom: 32px;
+        }
+
+        .skeleton-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 20px;
+        }
+
+        .skeleton-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            animation: shimmer 1.5s infinite;
+        }
+
+        .skeleton-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .skeleton-circle {
+            width: 40px;
+            height: 40px;
+            background: #F0F0F0;
+            border-radius: 20px;
+            flex-shrink: 0;
+        }
+
+        .skeleton-content {
+            flex: 1;
+        }
+
+        .skeleton-line {
+            height: 16px;
+            background: #F0F0F0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-line.short {
+            width: 60%;
+        }
+
+        .skeleton-line.medium {
+            width: 80%;
+        }
+
+        .skeleton-line.long {
+            width: 100%;
+        }
+
+        @keyframes shimmer {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #86868B;
+            border: 1px solid #E5E5E7;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+            border-color: #86868B;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .notification-toggle {
+            background: #007AFF0A;
+            border: 1px solid #007AFF;
+            color: #007AFF;
+        }
+
+        .notification-toggle:hover {
+            background: #007AFF;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 16px 0;
+            }
+            
+            .main-content {
+                padding: 24px;
+            }
+            
+            .generating-title {
+                font-size: 28px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">GenMentor</div>
+            <div class="nav-item">Trang chủ</div>
+            <div class="nav-item">Khóa học của tôi</div>
+            <div class="nav-item active">Lộ trình của tôi</div>
+            <div class="nav-item">Hôm nay</div>
+            <div class="nav-item">Roadmap</div>
+            <div class="nav-item">Kỹ năng</div>
+            <div class="nav-item">Tiến độ</div>
+            <div class="nav-item">Review tuần</div>
+            <div class="nav-item">Bài tập</div>
+            <div class="nav-item">Cộng đồng</div>
+            <div class="nav-item">Khám phá</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="generating-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <div class="generating-icon"></div>
+                
+                <h1 class="generating-title">Đang tạo lộ trình</h1>
+                <p class="generating-subtitle">AI đang phân tích và thiết kế lộ trình học tập phù hợp với bạn</p>
+
+                <div class="estimated-time">
+                    <div class="time-icon">⏱</div>
+                    <div class="time-text">
+                        Thời gian ước tính: <span class="time-remaining" id="timeRemaining">45 giây</span>
+                    </div>
+                </div>
+
+                <div class="progress-steps">
+                    <div class="step-item" id="step1">
+                        <div class="step-icon completed">✓</div>
+                        <div class="step-content">
+                            <div class="step-title">Phân tích hồ sơ</div>
+                            <div class="step-description">Đã xử lý CV và thông tin cá nhân</div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item" id="step2">
+                        <div class="step-icon completed">✓</div>
+                        <div class="step-content">
+                            <div class="step-title">Xác định khoảng trống kỹ năng</div>
+                            <div class="step-description">Đã so sánh với yêu cầu vị trí mục tiêu</div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item" id="step3">
+                        <div class="step-icon active">⟳</div>
+                        <div class="step-content">
+                            <div class="step-title">Thiết kế lộ trình học tập</div>
+                            <div class="step-description">Đang tạo chuỗi bài học theo thứ tự tối ưu</div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item" id="step4">
+                        <div class="step-icon pending">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Lập lịch học tập</div>
+                            <div class="step-description">Sắp xếp theo thời gian rảnh của bạn</div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item" id="step5">
+                        <div class="step-icon pending">5</div>
+                        <div class="step-content">
+                            <div class="step-title">Chuẩn bị nội dung</div>
+                            <div class="step-description">Tìm kiếm tài liệu và bài tập phù hợp</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skeleton-roadmap">
+                    <div class="skeleton-title">Xem trước lộ trình</div>
+                    
+                    <div class="skeleton-item">
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-content">
+                            <div class="skeleton-line medium"></div>
+                            <div class="skeleton-line short"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skeleton-item">
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-content">
+                            <div class="skeleton-line long"></div>
+                            <div class="skeleton-line medium"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skeleton-item">
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-content">
+                            <div class="skeleton-line short"></div>
+                            <div class="skeleton-line long"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skeleton-item">
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-content">
+                            <div class="skeleton-line medium"></div>
+                            <div class="skeleton-line short"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary notification-toggle" id="notifyBtn" onclick="toggleNotification()">
+                        🔔 Thông báo khi xong
+                    </button>
+                    <button class="btn-secondary" onclick="runInBackground()" disabled>
+                        Chạy nền
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 3;
+        let timeRemaining = 45;
+        let notificationEnabled = false;
+        
+        const steps = [
+            { id: 'step1', duration: 5 },
+            { id: 'step2', duration: 8 },
+            { id: 'step3', duration: 15 },
+            { id: 'step4', duration: 10 },
+            { id: 'step5', duration: 7 }
+        ];
+
+        function updateTimer() {
+            const timerElement = document.getElementById('timeRemaining');
+            timerElement.textContent = `${timeRemaining} giây`;
+            
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                completeGeneration();
+            }
+        }
+
+        function updateSteps() {
+            if (currentStep <= steps.length) {
+                // Complete current step after its duration
+                setTimeout(() => {
+                    const stepElement = document.getElementById(steps[currentStep - 1].id);
+                    const icon = stepElement.querySelector('.step-icon');
+                    
+                    icon.classList.remove('active');
+                    icon.classList.add('completed');
+                    icon.textContent = '✓';
+                    
+                    // Move to next step
+                    currentStep++;
+                    if (currentStep <= steps.length) {
+                        const nextStepElement = document.getElementById(steps[currentStep - 1].id);
+                        const nextIcon = nextStepElement.querySelector('.step-icon');
+                        
+                        nextIcon.classList.remove('pending');
+                        nextIcon.classList.add('active');
+                        nextIcon.textContent = '⟳';
+                        
+                        nextStepElement.classList.add('active');
+                        
+                        updateSteps();
+                    }
+                }, steps[currentStep - 1].duration * 1000);
+            }
+        }
+
+        function toggleNotification() {
+            notificationEnabled = !notificationEnabled;
+            const btn = document.getElementById('notifyBtn');
+            
+            if (notificationEnabled) {
+                btn.textContent = '🔕 Hủy thông báo';
+                btn.style.background = '#34C759';
+                btn.style.borderColor = '#34C759';
+                btn.style.color = 'white';
+                
+                // Request notification permission
+                if ('Notification' in window) {
+                    Notification.requestPermission();
+                }
+            } else {
+                btn.textContent = '🔔 Thông báo khi xong';
+                btn.style.background = '#007AFF0A';
+                btn.style.borderColor = '#007AFF';
+                btn.style.color = '#007AFF';
+            }
+        }
+
+        function runInBackground() {
+            // This would minimize the process and notify when complete
+            alert('Tính năng chạy nền sẽ được triển khai sau');
+        }
+
+        function completeGeneration() {
+            // Complete all remaining steps
+            steps.forEach((step, index) => {
+                const stepElement = document.getElementById(step.id);
+                const icon = stepElement.querySelector('.step-icon');
+                
+                icon.classList.remove('active', 'pending');
+                icon.classList.add('completed');
+                icon.textContent = '✓';
+                
+                stepElement.classList.remove('active');
+            });
+
+            // Show notification if enabled
+            if (notificationEnabled && 'Notification' in window && Notification.permission === 'granted') {
+                new Notification('GenMentor', {
+                    body: 'Lộ trình học tập của bạn đã được tạo xong!',
+                    icon: '/favicon.ico'
+                });
+            }
+
+            // Navigate to success screen
+            setTimeout(() => {
+                window.location.href = 'screen_7_success.html';
+            }, 2000);
+        }
+
+        // Start the generation process
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTimer();
+            updateSteps();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+[
+  {
+    "course_id": "C001",
+    "course_name": "AI Foundation Basics",
+    "module_id": "M002",
+    "module_name": "Prompting",
+    "lesson_id": "L004",
+    "lesson_name": "Structured prompt patterns",
+    "skill_id": "SK_PROMPT_STRUCTURED",
+    "skill_name": "Prompting có cấu trúc",
+    "level_target": "beginner",
+    "duration_minutes": 50,
+    "prerequisite_ids": [
+      "L003"
+    ],
+    "content_source_tags": [
+      "prompting",
+      "structured_output"
+    ]
+  }
+]

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMentor - Tạo lộ trình</title>
+    <link rel="stylesheet" href="shared/layout.css">
+    <style>
+        /* Create Path Specific Styles */
+        .create-path-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .path-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xxl);
+        }
+
+        .path-title {
+            font-size: var(--font-size-h1);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .path-subtitle {
+            font-size: var(--font-size-body);
+            color: var(--text-secondary);
+        }
+
+        .form-preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: var(--spacing-xl);
+        }
+
+        .form-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+        }
+
+        .form-section {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: var(--font-size-caption);
+        }
+
+        .section-number.completed {
+            background: var(--success);
+        }
+
+        .section-number.inactive {
+            background: var(--border);
+            color: var(--text-secondary);
+        }
+
+        .section-title {
+            font-size: var(--font-size-h3);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--font-size-caption);
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-caption);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .upload-area.has-file {
+            border-color: var(--success);
+            background: rgba(52, 199, 89, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .upload-text {
+            font-size: var(--font-size-caption);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .upload-hint {
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+        }
+
+        .ai-analysis {
+            background: rgba(0, 122, 255, 0.05);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .analysis-title {
+            font-size: var(--font-size-caption);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .analysis-content {
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .skill-tag {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+        }
+
+        .skill-tag.current {
+            background: rgba(52, 199, 89, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .skill-tag.target {
+            background: rgba(0, 122, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .preview-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            position: sticky;
+            top: calc(var(--topbar-height) + var(--spacing-lg));
+            height: fit-content;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .preview-title {
+            font-size: var(--font-size-h3);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .preview-subtitle {
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+        }
+
+        .preview-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .preview-stat {
+            text-align: center;
+            padding: var(--spacing-md);
+            background: var(--background);
+            border-radius: var(--radius-md);
+        }
+
+        .stat-number {
+            font-size: var(--font-size-h2);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+        }
+
+        .preview-milestones {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .milestone-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .milestone-item:last-child {
+            border-bottom: none;
+        }
+
+        .milestone-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--background);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .milestone-text {
+            flex: 1;
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--border);
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+        }
+
+        .loading-state {
+            display: none;
+            text-align: center;
+            padding: var(--spacing-xl);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--spacing-md);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-preview-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-panel {
+                position: static;
+                order: -1;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">GenMentor</div>
+            </div>
+            <nav class="nav-menu">
+                <a href="1_dashboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>Trang chủ</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span>Khóa học của tôi</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">🛤️</span>
+                    <span>Lộ trình của tôi</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span>Bài tập</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>Cộng đồng</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🔍</span>
+                    <span>Khám phá</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" class="search-input" placeholder="Tìm kiếm...">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="topbar-btn">
+                        <span>🔔</span>
+                    </button>
+                    <button class="topbar-btn">
+                        <span>👤</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="create-path-container">
+                    <!-- Header -->
+                    <div class="path-header">
+                        <h1 class="path-title">Tạo lộ trình học tập</h1>
+                        <p class="path-subtitle">Hãy cho chúng tôi biết mục tiêu và khả năng của bạn để tạo lộ trình phù hợp</p>
+                    </div>
+
+                    <!-- Form and Preview Grid -->
+                    <div class="form-preview-grid">
+                        <!-- Form Container -->
+                        <div class="form-container">
+                            <form id="create-path-form">
+                                <!-- Section 1: Mục tiêu -->
+                                <div class="form-section">
+                                    <div class="section-header">
+                                        <div class="section-number">1</div>
+                                        <h3 class="section-title">Mục tiêu của bạn</h3>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Tôi muốn đạt được gì?</label>
+                                        <input type="text" class="form-input" placeholder="Ví dụ: Trở thành AI Engineer, Học tiếng Anh giao tiếp..." value="Trở thành AI Engineer">
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label">Deadline mong muốn</label>
+                                            <input type="date" class="form-input" value="2026-10-22">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Level hiện tại</label>
+                                            <select class="form-input form-select">
+                                                <option>Mới bắt đầu</option>
+                                                <option selected>Có chút kinh nghiệm</option>
+                                                <option>Trung bình</option>
+                                                <option>Khá giỏi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 2: Hồ sơ -->
+                                <div class="form-section">
+                                    <div class="section-header">
+                                        <div class="section-number">2</div>
+                                        <h3 class="section-title">Hồ sơ & năng lực</h3>
+                                    </div>
+                                    
+                                    <div class="upload-area" onclick="document.getElementById('cv-upload').click()">
+                                        <div class="upload-icon">📄</div>
+                                        <div class="upload-text">Tải lên CV hoặc hồ sơ của bạn</div>
+                                        <div class="upload-hint">PDF, DOC, DOCX (tối đa 10MB)</div>
+                                        <input type="file" id="cv-upload" style="display: none;" accept=".pdf,.doc,.docx" onchange="handleFileUpload(this)">
+                                    </div>
+
+                                    <div id="ai-analysis" class="ai-analysis" style="display: none;">
+                                        <div class="analysis-header">
+                                            <span>🤖</span>
+                                            <span class="analysis-title">AI đã phân tích hồ sơ của bạn</span>
+                                        </div>
+                                        <div class="analysis-content">
+                                            Từ CV của bạn, tôi thấy bạn có nền tảng lập trình Python và kinh nghiệm với web development. 
+                                            Đây là điểm khởi đầu tốt cho việc học AI Engineering.
+                                        </div>
+                                        <div class="skill-tags">
+                                            <span class="skill-tag current">Python</span>
+                                            <span class="skill-tag current">JavaScript</span>
+                                            <span class="skill-tag current">React</span>
+                                            <span class="skill-tag target">Machine Learning</span>
+                                            <span class="skill-tag target">TensorFlow</span>
+                                            <span class="skill-tag target">Deep Learning</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 3: Thời gian học -->
+                                <div class="form-section">
+                                    <div class="section-header">
+                                        <div class="section-number">3</div>
+                                        <h3 class="section-title">Thời gian học tập</h3>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label">Số buổi/tuần</label>
+                                            <select class="form-input form-select">
+                                                <option>1-2 buổi</option>
+                                                <option>3-4 buổi</option>
+                                                <option selected>5-6 buổi</option>
+                                                <option>Hàng ngày</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Thời gian/buổi</label>
+                                            <select class="form-input form-select">
+                                                <option>30 phút</option>
+                                                <option>1 giờ</option>
+                                                <option selected>1.5 giờ</option>
+                                                <option>2 giờ</option>
+                                                <option>2+ giờ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Khung giờ phù hợp</label>
+                                        <select class="form-input form-select">
+                                            <option>Sáng sớm (6-9h)</option>
+                                            <option selected>Tối (19-22h)</option>
+                                            <option>Cuối tuần</option>
+                                            <option>Linh hoạt</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Section 4: Xác nhận AI -->
+                                <div class="form-section">
+                                    <div class="section-header">
+                                        <div class="section-number inactive">4</div>
+                                        <h3 class="section-title">Xác nhận AI hiểu đúng</h3>
+                                    </div>
+                                    
+                                    <div id="ai-understanding" style="display: none;">
+                                        <div class="ai-analysis">
+                                            <div class="analysis-header">
+                                                <span>🎯</span>
+                                                <span class="analysis-title">Mục tiêu AI hiểu được</span>
+                                            </div>
+                                            <div class="analysis-content">
+                                                Bạn muốn trở thành AI Engineer trong 6 tháng, với nền tảng lập trình có sẵn. 
+                                                Bạn có thể học 5-6 buổi/tuần, mỗi buổi 1.5 giờ vào buổi tối.
+                                            </div>
+                                        </div>
+
+                                        <div class="ai-analysis mt-md">
+                                            <div class="analysis-header">
+                                                <span>🔍</span>
+                                                <span class="analysis-title">Skill gaps được phát hiện</span>
+                                            </div>
+                                            <div class="analysis-content">
+                                                Cần học: Machine Learning cơ bản, Statistics, TensorFlow/PyTorch, 
+                                                Deep Learning, MLOps, và các kỹ năng triển khai model.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- Loading State -->
+                            <div id="loading-state" class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <h3>Đang phân tích và tạo lộ trình...</h3>
+                                <p>AI đang xử lý thông tin của bạn để tạo lộ trình tối ưu</p>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="form-actions">
+                                <div class="progress-indicator">
+                                    <span>Bước 3/4</span>
+                                    <div class="progress-bar" style="width: 100px;">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-md">
+                                    <button type="button" class="btn btn-secondary" onclick="analyzeProfile()">Phân tích hồ sơ</button>
+                                    <button type="button" class="btn btn-primary" onclick="createPath()">Tạo lộ trình học</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview Panel -->
+                        <div class="preview-panel">
+                            <div class="preview-header">
+                                <h3 class="preview-title">Dự kiến lộ trình</h3>
+                                <p class="preview-subtitle">Ước tính dựa trên thông tin hiện tại</p>
+                            </div>
+
+                            <div class="preview-stats">
+                                <div class="preview-stat">
+                                    <div class="stat-number">24</div>
+                                    <div class="stat-label">Tuần</div>
+                                </div>
+                                <div class="preview-stat">
+                                    <div class="stat-number">6</div>
+                                    <div class="stat-label">Chặng</div>
+                                </div>
+                            </div>
+
+                            <div class="preview-milestones">
+                                <h4 class="mb-md">Các chặng chính</h4>
+                                <div class="milestone-item">
+                                    <div class="milestone-icon">1</div>
+                                    <div class="milestone-text">Python & Math Foundation</div>
+                                </div>
+                                <div class="milestone-item">
+                                    <div class="milestone-icon">2</div>
+                                    <div class="milestone-text">Machine Learning Basics</div>
+                                </div>
+                                <div class="milestone-item">
+                                    <div class="milestone-icon">3</div>
+                                    <div class="milestone-text">Deep Learning & Neural Networks</div>
+                                </div>
+                                <div class="milestone-item">
+                                    <div class="milestone-icon">4</div>
+                                    <div class="milestone-text">TensorFlow & PyTorch</div>
+                                </div>
+                                <div class="milestone-item">
+                                    <div class="milestone-icon">5</div>
+                                    <div class="milestone-text">Advanced AI Techniques</div>
+                                </div>
+                                <div class="milestone-item">
+                                    <div class="milestone-icon">6</div>
+                                    <div class="milestone-text">MLOps & Deployment</div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <p class="text-secondary mb-md">Bài học đầu tiên gợi ý:</p>
+                                <div class="card" style="padding: var(--spacing-md);">
+                                    <strong>Python for AI - Refresher</strong><br>
+                                    <small class="text-secondary">45 phút • Video + Practice</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleFileUpload(input) {
+            if (input.files && input.files[0]) {
+                const uploadArea = input.parentElement;
+                uploadArea.classList.add('has-file');
+                uploadArea.innerHTML = `
+                    <div class="upload-icon">✅</div>
+                    <div class="upload-text">CV đã được tải lên: ${input.files[0].name}</div>
+                    <div class="upload-hint">Nhấn để thay đổi file</div>
+                `;
+                
+                // Show AI analysis after a delay
+                setTimeout(() => {
+                    document.getElementById('ai-analysis').style.display = 'block';
+                    document.querySelector('.form-section:nth-child(2) .section-number').classList.add('completed');
+                }, 1500);
+            }
+        }
+
+        function analyzeProfile() {
+            // Show AI understanding section
+            document.getElementById('ai-understanding').style.display = 'block';
+            document.querySelector('.form-section:nth-child(4) .section-number').classList.remove('inactive');
+            document.querySelector('.form-section:nth-child(4) .section-number').classList.add('completed');
+            
+            // Update progress
+            document.querySelector('.progress-indicator span').textContent = 'Bước 4/4';
+            document.querySelector('.progress-fill').style.width = '100%';
+        }
+
+        function createPath() {
+            // Show loading state
+            document.getElementById('create-path-form').style.display = 'none';
+            document.querySelector('.form-actions').style.display = 'none';
+            document.getElementById('loading-state').style.display = 'block';
+            
+            // Simulate processing
+            setTimeout(() => {
+                window.location.href = '3_roadmap.html';
+            }, 3000);
+        }
+
+        // Auto-save progress
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    // Save to localStorage or send to backend
+                    console.log('Auto-saving progress...');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

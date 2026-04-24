@@ -1,0 +1,32 @@
+[
+  {
+    "role_id": "ROLE_AI_FOUNDATION_STAFF",
+    "role_name": "AI Foundation Staff",
+    "department": "All",
+    "description": "Nhân sự văn phòng hoặc nhân viên mới cần sử dụng AI an toàn và hiệu quả trong công việc."
+  },
+  {
+    "role_id": "ROLE_AI_AGENT_INTERN",
+    "role_name": "AI Agent Intern",
+    "department": "Technology",
+    "description": "Thực tập sinh hoặc nhân sự junior tham gia xây dựng agent, automation và workflow AI."
+  },
+  {
+    "role_id": "ROLE_ERP_OPERATIONS_STAFF",
+    "role_name": "ERP Operations Staff",
+    "department": "Operations",
+    "description": "Nhân sự vận hành sử dụng ERP để tạo đơn, theo dõi trạng thái và xử lý sai lệch dữ liệu."
+  },
+  {
+    "role_id": "ROLE_NEW_HIRE_ONBOARDING",
+    "role_name": "New Hire Onboarding",
+    "department": "All",
+    "description": "Nhân sự mới cần nắm quy trình nội bộ, cách phối hợp và chuẩn báo cáo."
+  },
+  {
+    "role_id": "ROLE_JUNIOR_SOFTWARE_STAFF",
+    "role_name": "Junior Software Staff",
+    "department": "Technology",
+    "description": "Nhân sự kỹ thuật junior cần nắm quy trình phát triển phần mềm, Git flow, ticketing, code review."
+  }
+]

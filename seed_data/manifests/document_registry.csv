@@ -1,0 +1,21 @@
+filename,title,file_type,category,subcategory,tags,description,target_skills,difficulty_level
+ai_fundamentals.docx,AI Fundamentals Guide,docx,AI,Introduction,"ai,machine-learning,basics",Introduction to AI concepts and applications,"Machine Learning,Python Programming",beginner
+ml_algorithms.pdf,Machine Learning Algorithms,pdf,AI,Algorithms,"ml,algorithms,supervised",Comprehensive guide to ML algorithms,"Machine Learning,Data Analysis",intermediate
+deep_learning_intro.docx,Deep Learning Introduction,docx,AI,Deep Learning,"deep-learning,neural-networks",Introduction to neural networks and deep learning,"Deep Learning,Machine Learning",advanced
+python_for_ai.xlsx,Python for AI Cheat Sheet,xlsx,AI,Programming,"python,ai,programming",Python libraries and tools for AI development,"Python Programming,Machine Learning",beginner
+tensorflow_guide.pdf,TensorFlow Complete Guide,pdf,AI,Frameworks,"tensorflow,deep-learning,framework",Complete guide to TensorFlow framework,"Deep Learning,Python Programming",advanced
+erp_implementation.docx,ERP Implementation Guide,docx,ERP_SOP,Implementation,"erp,implementation,process",Step-by-step ERP implementation process,"ERP Configuration,Project Management",intermediate
+sap_configuration.pdf,SAP Configuration Manual,pdf,ERP_SOP,Configuration,"sap,configuration,setup",SAP system configuration procedures,"ERP Configuration,Process Modeling",intermediate
+erp_user_training.docx,ERP User Training Manual,docx,ERP_SOP,Training,"erp,training,users",Training materials for ERP end users,"ERP Configuration",beginner
+business_process_mapping.xlsx,Business Process Mapping Template,xlsx,ERP_SOP,Process,"process,mapping,business",Template for mapping business processes,"Process Modeling,Data Analysis",intermediate
+erp_troubleshooting.pdf,ERP Troubleshooting Guide,pdf,ERP_SOP,Support,"erp,troubleshooting,support",Common ERP issues and solutions,"ERP Configuration",intermediate
+agile_methodology.docx,Agile Development Methodology,docx,Software_Process,Methodology,"agile,scrum,methodology",Agile software development practices,"Project Management",intermediate
+api_design_best_practices.pdf,API Design Best Practices,pdf,Software_Process,API,"api,design,rest",Best practices for designing REST APIs,"API Development",intermediate
+code_review_checklist.docx,Code Review Checklist,docx,Software_Process,Quality,"code-review,quality,checklist",Checklist for effective code reviews,"Python Programming,API Development",beginner
+git_workflow.xlsx,Git Workflow Guide,xlsx,Software_Process,Version Control,"git,version-control,workflow",Git branching and workflow strategies,"Project Management",beginner
+testing_strategies.pdf,Software Testing Strategies,pdf,Software_Process,Testing,"testing,qa,strategies",Comprehensive testing methodologies,"Python Programming,API Development",intermediate
+python_quiz_bank.xlsx,Python Programming Quiz Bank,xlsx,Assessment,Programming,"python,quiz,assessment",Question bank for Python programming assessment,"Python Programming",beginner
+ml_assessment_template.xlsx,ML Assessment Template,xlsx,Assessment,AI,"ml,assessment,evaluation",Assessment template for machine learning skills,"Machine Learning,Data Analysis",intermediate
+erp_competency_matrix.xlsx,ERP Competency Assessment,xlsx,Assessment,ERP,"erp,competency,skills",Competency matrix for ERP skills evaluation,"ERP Configuration,Process Modeling",intermediate
+data_analysis_rubric.xlsx,Data Analysis Rubric,xlsx,Assessment,Analytics,"data,analysis,rubric",Rubric for evaluating data analysis skills,"Data Analysis,Data Visualization",beginner
+project_management_eval.xlsx,Project Management Evaluation,xlsx,Assessment,Management,"project,management,evaluation",Evaluation criteria for project management skills,"Project Management",intermediate

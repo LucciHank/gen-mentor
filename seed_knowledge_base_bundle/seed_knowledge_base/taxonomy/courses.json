@@ -1,0 +1,26 @@
+[
+  {
+    "course_id": "C001",
+    "course_name": "AI Foundation Basics",
+    "track": "AI Foundation",
+    "description": "Kiến thức nền, prompting cơ bản, AI safety."
+  },
+  {
+    "course_id": "C002",
+    "course_name": "AI Agent Builder Fundamentals",
+    "track": "AI Agent",
+    "description": "Workflow thinking, tool calling, agent design."
+  },
+  {
+    "course_id": "C003",
+    "course_name": "ERP Operations Essentials",
+    "track": "ERP / SOP",
+    "description": "Tạo đơn hàng, duyệt yêu cầu, kiểm soát dữ liệu."
+  },
+  {
+    "course_id": "C004",
+    "course_name": "Software Process Essentials",
+    "track": "Software Process",
+    "description": "Process, Git flow, ticket/report, code review."
+  }
+]

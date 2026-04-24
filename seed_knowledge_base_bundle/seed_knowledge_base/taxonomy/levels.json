@@ -1,0 +1,22 @@
+[
+  {
+    "level_id": "L0",
+    "label": "unlearned",
+    "description": "Chưa có bằng chứng đã học hoặc làm được."
+  },
+  {
+    "level_id": "L1",
+    "label": "beginner",
+    "description": "Hiểu khái niệm cơ bản, làm được khi có hướng dẫn rõ."
+  },
+  {
+    "level_id": "L2",
+    "label": "intermediate",
+    "description": "Có thể làm độc lập trong tình huống quen thuộc."
+  },
+  {
+    "level_id": "L3",
+    "label": "advanced",
+    "description": "Làm độc lập, phân tích được và xử lý tình huống thực tế."
+  }
+]

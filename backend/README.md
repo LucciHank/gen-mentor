@@ -38,6 +38,7 @@ The system is built with a modular architecture consisting of:
 ### Prerequisites
 
 - Python 3.12+
+- PostgreSQL 12+ (for database functionality)
 - Conda or virtual environment
 
 ### Installation
@@ -47,6 +48,55 @@ uv venv
 source .venv/bin/activate  # on Windows: .venv\Scripts\activate
 uv pip install -r requirements.txt
 ```
+
+### Database Setup
+
+GenMentor uses PostgreSQL for storing learner profiles, learning paths, skill taxonomies, and document metadata.
+
+#### 1. Install PostgreSQL
+
+Install PostgreSQL on your system:
+- **Ubuntu/Debian**: `sudo apt-get install postgresql postgresql-contrib`
+- **macOS**: `brew install postgresql`
+- **Windows**: Download from [postgresql.org](https://www.postgresql.org/download/)
+
+#### 2. Configure Database Connection
+
+Set up environment variables for database connection:
+
+```bash
+# Required database environment variables
+export DB_HOST=localhost
+export DB_PORT=5432
+export DB_NAME=genmentor
+export DB_USER=postgres
+export DB_PASSWORD=your_password
+```
+
+Or create a `.env` file in the backend directory:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=genmentor
+DB_USER=postgres
+DB_PASSWORD=your_password
+```
+
+#### 3. Initialize Database
+
+Run the database setup script to create the database schema and seed initial data:
+
+```bash
+cd backend
+python scripts/setup_database.py
+```
+
+This script will:
+- Create the `genmentor` database if it doesn't exist
+- Set up the complete database schema (roles, skills, courses, learners, etc.)
+- Seed initial taxonomy data from JSON files
+- Create necessary indexes for performance
 
 ### Running the Application
 
@@ -294,10 +344,44 @@ python main.py --config-name=prod
 
 ### RAG and Search Configuration
 
-The system supports multiple search providers:
+The system supports multiple search providers and data storage:
 - **DuckDuckGo**: Web search integration
 - **ChromaDB**: Vector storage for document retrieval
+- **PostgreSQL**: Relational database for structured data (learner profiles, taxonomies, learning paths)
 - **Sentence Transformers**: Text embeddings
+
+#### Database Configuration
+
+Configure PostgreSQL connection in your environment or config files:
+
+```yaml
+# config/main.yaml
+database:
+  host: ${DB_HOST:localhost}
+  port: ${DB_PORT:5432}
+  name: ${DB_NAME:genmentor}
+  user: ${DB_USER:postgres}
+  password: ${DB_PASSWORD:password}
+```
+
+**Database Schema Overview:**
+
+The PostgreSQL database includes tables for:
+- **Taxonomy**: Roles, skills, courses, and their relationships
+- **Learner Management**: User profiles, learning goals, and progress tracking
+- **Learning Paths**: Structured learning sequences and sessions
+- **Document Management**: File metadata and categorization
+- **Assessment System**: Question banks and assessment types
+
+**Database Maintenance:**
+
+```bash
+# Re-run database setup (safe - uses ON CONFLICT clauses)
+python scripts/setup_database.py
+
+# Check database connection
+python -c "from scripts.setup_database import get_db_connection; print('Connected!' if get_db_connection() else 'Failed!')"
+```
 
 ## Data Flow
 
@@ -354,6 +438,34 @@ The project includes an `api_tester/` directory with testing utilities. Run test
 python -m pytest test_config.py
 ```
 
+### Troubleshooting
+
+#### Database Connection Issues
+
+**Error: "psycopg2.OperationalError: could not connect to server"**
+- Ensure PostgreSQL is running: `sudo systemctl start postgresql` (Linux) or `brew services start postgresql` (macOS)
+- Check if the database exists: `psql -U postgres -l`
+- Verify connection parameters in your `.env` file
+
+**Error: "database does not exist"**
+- The setup script should create the database automatically
+- If it fails, create manually: `createdb -U postgres genmentor`
+
+**Error: "permission denied for database"**
+- Ensure the database user has proper permissions
+- Grant permissions: `psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE genmentor TO your_user;"`
+
+**Error: "relation does not exist"**
+- Run the database setup script: `python scripts/setup_database.py`
+- Check if schema was created: `psql -U postgres -d genmentor -c "\dt"`
+
+#### Environment Variables
+
+If you see warnings about missing environment variables, either:
+1. Set them in your shell environment
+2. Create a `.env` file in the backend directory
+3. The script will use defaults (localhost, postgres, password) for development
+
 ## Dependencies
 
 Key dependencies include:
@@ -361,7 +473,9 @@ Key dependencies include:
 - **LangChain**: LLM orchestration
 - **Hydra**: Configuration management
 - **Pydantic**: Data validation
-- **ChromaDB**: Vector database
+- **ChromaDB**: Vector database for embeddings
+- **PostgreSQL**: Relational database (via psycopg2-binary)
+- **SQLAlchemy**: Database ORM
 - **Sentence Transformers**: Text embeddings
 - **DuckDuckGo Search**: Web search
 

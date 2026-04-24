@@ -1,0 +1,132 @@
+[
+  {
+    "name": "Python Programming",
+    "description": "Programming in Python language for various applications",
+    "category": "Programming",
+    "level": "beginner",
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Write basic Python scripts",
+      "Understand Python syntax and data structures",
+      "Use Python libraries effectively",
+      "Debug Python code"
+    ]
+  },
+  {
+    "name": "Machine Learning",
+    "description": "Understanding ML algorithms and their practical applications",
+    "category": "AI/ML",
+    "level": "intermediate",
+    "prerequisites": ["Python Programming", "Data Analysis"],
+    "learning_outcomes": [
+      "Understand ML concepts and algorithms",
+      "Implement basic ML models",
+      "Evaluate model performance",
+      "Apply ML to real-world problems"
+    ]
+  },
+  {
+    "name": "Deep Learning",
+    "description": "Neural networks and deep learning techniques",
+    "category": "AI/ML",
+    "level": "advanced",
+    "prerequisites": ["Machine Learning", "Python Programming"],
+    "learning_outcomes": [
+      "Design neural network architectures",
+      "Train deep learning models",
+      "Use frameworks like TensorFlow/PyTorch",
+      "Apply deep learning to complex problems"
+    ]
+  },
+  {
+    "name": "Data Analysis",
+    "description": "Analyzing and interpreting data to derive insights",
+    "category": "Analytics",
+    "level": "beginner",
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Clean and preprocess data",
+      "Perform exploratory data analysis",
+      "Apply statistical methods",
+      "Draw meaningful conclusions from data"
+    ]
+  },
+  {
+    "name": "SQL",
+    "description": "Database querying and management using SQL",
+    "category": "Database",
+    "level": "beginner",
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Write basic SQL queries",
+      "Join multiple tables",
+      "Aggregate and filter data",
+      "Optimize query performance"
+    ]
+  },
+  {
+    "name": "API Development",
+    "description": "Building REST APIs and web services",
+    "category": "Programming",
+    "level": "intermediate",
+    "prerequisites": ["Python Programming"],
+    "learning_outcomes": [
+      "Design RESTful APIs",
+      "Implement API endpoints",
+      "Handle authentication and authorization",
+      "Document APIs effectively"
+    ]
+  },
+  {
+    "name": "Data Visualization",
+    "description": "Creating charts, graphs, and dashboards",
+    "category": "Analytics",
+    "level": "beginner",
+    "prerequisites": ["Data Analysis"],
+    "learning_outcomes": [
+      "Choose appropriate chart types",
+      "Create interactive visualizations",
+      "Design effective dashboards",
+      "Tell stories with data"
+    ]
+  },
+  {
+    "name": "ERP Configuration",
+    "description": "Configuring and customizing ERP systems",
+    "category": "Business Systems",
+    "level": "intermediate",
+    "prerequisites": ["Process Modeling"],
+    "learning_outcomes": [
+      "Configure ERP modules",
+      "Customize workflows",
+      "Set up user permissions",
+      "Integrate with other systems"
+    ]
+  },
+  {
+    "name": "Process Modeling",
+    "description": "Business process analysis and modeling techniques",
+    "category": "Business",
+    "level": "intermediate",
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Map current state processes",
+      "Design future state processes",
+      "Use process modeling tools",
+      "Identify process improvements"
+    ]
+  },
+  {
+    "name": "Project Management",
+    "description": "Managing projects from initiation to completion",
+    "category": "Management",
+    "level": "intermediate",
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Plan project scope and timeline",
+      "Manage project resources",
+      "Track project progress",
+      "Communicate with stakeholders"
+    ]
+  }
+]

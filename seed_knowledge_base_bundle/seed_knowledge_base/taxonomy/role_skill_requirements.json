@@ -1,0 +1,134 @@
+[
+  {
+    "role_id": "ROLE_AI_FOUNDATION_STAFF",
+    "skill_id": "SK_AI_LITERACY",
+    "required_level": "L1",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_AI_FOUNDATION_STAFF",
+    "skill_id": "SK_PROMPT_BASIC",
+    "required_level": "L1",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_AI_FOUNDATION_STAFF",
+    "skill_id": "SK_AI_TOOL_USE",
+    "required_level": "L1",
+    "importance_weight": 4
+  },
+  {
+    "role_id": "ROLE_AI_FOUNDATION_STAFF",
+    "skill_id": "SK_AI_SAFETY",
+    "required_level": "L1",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_AI_AGENT_INTERN",
+    "skill_id": "SK_AI_LITERACY",
+    "required_level": "L1",
+    "importance_weight": 4
+  },
+  {
+    "role_id": "ROLE_AI_AGENT_INTERN",
+    "skill_id": "SK_PROMPT_STRUCTURED",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_AI_AGENT_INTERN",
+    "skill_id": "SK_WORKFLOW_THINKING",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_AI_AGENT_INTERN",
+    "skill_id": "SK_TOOL_CALLING",
+    "required_level": "L1",
+    "importance_weight": 4
+  },
+  {
+    "role_id": "ROLE_AI_AGENT_INTERN",
+    "skill_id": "SK_AGENT_DESIGN",
+    "required_level": "L1",
+    "importance_weight": 4
+  },
+  {
+    "role_id": "ROLE_AI_AGENT_INTERN",
+    "skill_id": "SK_PROJECT_EXECUTION",
+    "required_level": "L1",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_ERP_OPERATIONS_STAFF",
+    "skill_id": "SK_ERP_ORDER_ENTRY",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_ERP_OPERATIONS_STAFF",
+    "skill_id": "SK_ERP_REQUEST_APPROVAL",
+    "required_level": "L2",
+    "importance_weight": 4
+  },
+  {
+    "role_id": "ROLE_ERP_OPERATIONS_STAFF",
+    "skill_id": "SK_ERP_DATA_HYGIENE",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_ERP_OPERATIONS_STAFF",
+    "skill_id": "SK_SOP_COMPLIANCE",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_NEW_HIRE_ONBOARDING",
+    "skill_id": "SK_SOP_COMPLIANCE",
+    "required_level": "L1",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_NEW_HIRE_ONBOARDING",
+    "skill_id": "SK_REPORTING",
+    "required_level": "L1",
+    "importance_weight": 4
+  },
+  {
+    "role_id": "ROLE_NEW_HIRE_ONBOARDING",
+    "skill_id": "SK_AI_LITERACY",
+    "required_level": "L1",
+    "importance_weight": 3
+  },
+  {
+    "role_id": "ROLE_JUNIOR_SOFTWARE_STAFF",
+    "skill_id": "SK_SOFTWARE_PROCESS",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_JUNIOR_SOFTWARE_STAFF",
+    "skill_id": "SK_TICKET_WRITING",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_JUNIOR_SOFTWARE_STAFF",
+    "skill_id": "SK_GIT_FLOW",
+    "required_level": "L2",
+    "importance_weight": 5
+  },
+  {
+    "role_id": "ROLE_JUNIOR_SOFTWARE_STAFF",
+    "skill_id": "SK_CODE_REVIEW",
+    "required_level": "L1",
+    "importance_weight": 4
+  },
+  {
+    "role_id": "ROLE_JUNIOR_SOFTWARE_STAFF",
+    "skill_id": "SK_REPORTING",
+    "required_level": "L1",
+    "importance_weight": 3
+  }
+]

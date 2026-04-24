@@ -1,0 +1,110 @@
+{
+  "manifest_version": "1.0",
+  "created_at": "2024-04-22T00:00:00Z",
+  "description": "GenMentor knowledge base manifest for MVP demo",
+  "processing_config": {
+    "chunk_size": 1000,
+    "chunk_overlap": 200,
+    "embedding_model": "all-mpnet-base-v2",
+    "vector_store": "chroma"
+  },
+  "document_categories": {
+    "AI": {
+      "description": "AI/ML learning materials and tutorials",
+      "processing": {
+        "index_in_vector_store": true,
+        "extract_metadata": true,
+        "generate_summaries": true
+      },
+      "target_skills": ["Machine Learning", "Deep Learning", "Python Programming"]
+    },
+    "ERP_SOP": {
+      "description": "ERP Standard Operating Procedures",
+      "processing": {
+        "index_in_vector_store": true,
+        "extract_metadata": true,
+        "generate_summaries": false
+      },
+      "target_skills": ["ERP Configuration", "Process Modeling"]
+    },
+    "Software_Process": {
+      "description": "Software development processes and methodologies",
+      "processing": {
+        "index_in_vector_store": true,
+        "extract_metadata": true,
+        "generate_summaries": true
+      },
+      "target_skills": ["API Development", "Project Management", "Python Programming"]
+    },
+    "Assessment": {
+      "description": "Assessment templates and question banks",
+      "processing": {
+        "index_in_vector_store": false,
+        "extract_metadata": true,
+        "generate_summaries": false,
+        "store_in_database": true
+      },
+      "target_skills": ["all"]
+    }
+  },
+  "file_processing_rules": {
+    "docx": {
+      "extract_text": true,
+      "preserve_formatting": false,
+      "extract_tables": true,
+      "extract_images": false
+    },
+    "pdf": {
+      "extract_text": true,
+      "preserve_formatting": true,
+      "extract_tables": true,
+      "extract_images": false
+    },
+    "xlsx": {
+      "extract_data": true,
+      "sheet_processing": "all",
+      "header_row": 1,
+      "convert_to_json": true
+    }
+  },
+  "quality_checks": {
+    "min_content_length": 100,
+    "max_content_length": 50000,
+    "required_metadata_fields": ["title", "category", "file_type"],
+    "content_validation": {
+      "check_encoding": true,
+      "remove_duplicates": true,
+      "filter_noise": true
+    }
+  },
+  "ingestion_pipeline": [
+    {
+      "step": "file_discovery",
+      "description": "Scan raw/ directory for documents"
+    },
+    {
+      "step": "metadata_extraction",
+      "description": "Extract file metadata and categorize"
+    },
+    {
+      "step": "content_processing",
+      "description": "Parse content based on file type"
+    },
+    {
+      "step": "quality_validation",
+      "description": "Validate content quality and completeness"
+    },
+    {
+      "step": "skill_mapping",
+      "description": "Map content to relevant skills"
+    },
+    {
+      "step": "vector_indexing",
+      "description": "Create embeddings and store in vector database"
+    },
+    {
+      "step": "database_storage",
+      "description": "Store metadata and references in PostgreSQL"
+    }
+  ]
+}

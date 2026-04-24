@@ -1,0 +1,23 @@
+[
+  {
+    "item_id": "AIF004",
+    "skill_id": "SK_PROMPT_STRUCTURED",
+    "level": "beginner",
+    "question_type": "short_answer",
+    "question_stem": "Viết một prompt ngắn để AI tóm tắt meeting note thành action items.",
+    "expected_answer": {
+      "expected_keywords": [
+        "mục tiêu",
+        "deadline",
+        "owner",
+        "định dạng"
+      ]
+    },
+    "rubric": {
+      "criterion_1": "Có nêu mục tiêu",
+      "criterion_2": "Có nêu đầu ra dạng action items",
+      "criterion_3": "Có yêu cầu deadline/owner",
+      "criterion_4": "Có ràng buộc định dạng"
+    }
+  }
+]

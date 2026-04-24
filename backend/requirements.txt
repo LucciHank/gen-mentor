@@ -5,7 +5,6 @@ langchain-chroma
 langchain-huggingface
 langchain-docling
 
-
 duckduckgo-search
 sentence-transformers
 
@@ -19,3 +18,12 @@ langchain-google-genai
 uvicorn
 python-dotenv
 python-multipart
+
+# Database
+psycopg2-binary
+sqlalchemy
+
+# Additional utilities
+markdown
+openpyxl
+python-docx

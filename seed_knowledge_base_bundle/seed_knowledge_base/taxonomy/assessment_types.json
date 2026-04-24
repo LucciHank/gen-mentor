@@ -1,0 +1,27 @@
+[
+  {
+    "assessment_type_id": "AT_SINGLE",
+    "name": "single_choice",
+    "description": "Một đáp án đúng."
+  },
+  {
+    "assessment_type_id": "AT_MULTI",
+    "name": "multiple_choice",
+    "description": "Nhiều đáp án đúng."
+  },
+  {
+    "assessment_type_id": "AT_TF",
+    "name": "true_false",
+    "description": "Đúng/sai."
+  },
+  {
+    "assessment_type_id": "AT_SHORT",
+    "name": "short_answer",
+    "description": "Trả lời ngắn có rubric."
+  },
+  {
+    "assessment_type_id": "AT_CASE",
+    "name": "mini_case",
+    "description": "Tình huống thực hành hoặc bài mô phỏng."
+  }
+]

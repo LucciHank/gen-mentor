@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMentor - Lộ trình đã sẵn sàng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background-color: #F7F7F8;
+            color: #1D1D1F;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #E5E5E7;
+            padding: 24px 0;
+        }
+
+        .logo {
+            padding: 0 24px 32px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #007AFF;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            color: #86868B;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .nav-item.active {
+            background: #007AFF0A;
+            color: #007AFF;
+            border-right: 2px solid #007AFF;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px 48px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .success-container {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E5E5E7;
+            border-radius: 2px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #34C759;
+            width: 100%; /* 7/7 steps completed */
+            transition: width 0.3s ease;
+        }
+
+        .success-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #34C759;
+            border-radius: 40px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: successPulse 1s ease-out;
+        }
+
+        .success-icon::after {
+            content: "✓";
+            color: white;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        @keyframes successPulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1D1D1F;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .success-subtitle {
+            font-size: 18px;
+            color: #86868B;
+            margin-bottom: 40px;
+        }
+
+        .path-summary {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 1px solid #E5E5E7;
+        }
+
+        .summary-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .summary-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #007AFF, #5AC8FA);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .summary-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1D1D1F;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: #F7F7F8;
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #007AFF;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #86868B;
+        }
+
+        .first-week-preview {
+            background: #F7F7F8;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .preview-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 16px;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #E5E5E7;
+            transition: all 0.2s ease;
+        }
+
+        .lesson-item:hover {
+            border-color: #007AFF;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.1);
+        }
+
+        .lesson-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .lesson-number {
+            width: 32px;
+            height: 32px;
+            background: #007AFF;
+            color: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .lesson-content {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 4px;
+        }
+
+        .lesson-meta {
+            font-size: 14px;
+            color: #86868B;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .lesson-duration {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lesson-type {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cta-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 18px 32px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-primary:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        .secondary-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: #007AFF0A;
+        }
+
+        .celebration-message {
+            background: linear-gradient(135deg, #34C75905, #30D15805);
+            border: 1px solid #34C75920;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .celebration-emoji {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .celebration-text {
+            font-size: 16px;
+            color: #1D1D1F;
+            margin-bottom: 8px;
+        }
+
+        .celebration-subtext {
+            font-size: 14px;
+            color: #86868B;
+        }
+
+        .next-steps {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid #E5E5E7;
+        }
+
+        .next-steps-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 20px;
+        }
+
+        .step-list {
+            list-style: none;
+        }
+
+        .step-list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .step-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: #007AFF;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            font-size: 16px;
+            color: #1D1D1F;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 16px 0;
+            }
+            
+            .main-content {
+                padding: 24px;
+            }
+            
+            .success-title {
+                font-size: 28px;
+            }
+            
+            .summary-stats {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .secondary-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">GenMentor</div>
+            <div class="nav-item">Trang chủ</div>
+            <div class="nav-item">Khóa học của tôi</div>
+            <div class="nav-item active">Lộ trình của tôi</div>
+            <div class="nav-item">Hôm nay</div>
+            <div class="nav-item">Roadmap</div>
+            <div class="nav-item">Kỹ năng</div>
+            <div class="nav-item">Tiến độ</div>
+            <div class="nav-item">Review tuần</div>
+            <div class="nav-item">Bài tập</div>
+            <div class="nav-item">Cộng đồng</div>
+            <div class="nav-item">Khám phá</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="success-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <div class="success-header">
+                    <div class="success-icon"></div>
+                    <h1 class="success-title">Lộ trình đã sẵn sàng!</h1>
+                    <p class="success-subtitle">Chúc mừng! Lộ trình học tập cá nhân hóa của bạn đã được tạo thành công</p>
+                </div>
+
+                <div class="celebration-message">
+                    <div class="celebration-emoji">🎉</div>
+                    <div class="celebration-text">Bạn đã hoàn thành bước đầu tiên!</div>
+                    <div class="celebration-subtext">Hãy bắt đầu hành trình học tập của mình ngay hôm nay</div>
+                </div>
+
+                <div class="path-summary">
+                    <div class="summary-header">
+                        <div class="summary-icon">🎯</div>
+                        <div class="summary-title">Lộ trình AI Engineer</div>
+                    </div>
+
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Tuần học</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Milestone</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">144h</div>
+                            <div class="stat-label">Tổng thời lượng</div>
+                        </div>
+                    </div>
+
+                    <div class="first-week-preview">
+                        <div class="preview-title">Tuần đầu tiên - Python Foundations</div>
+                        
+                        <div class="lesson-item">
+                            <div class="lesson-number">1</div>
+                            <div class="lesson-content">
+                                <div class="lesson-title">Python Basics & Syntax</div>
+                                <div class="lesson-meta">
+                                    <div class="lesson-duration">⏱ 90 phút</div>
+                                    <div class="lesson-type">🎥 Video + Quiz</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lesson-item">
+                            <div class="lesson-number">2</div>
+                            <div class="lesson-content">
+                                <div class="lesson-title">Data Structures in Python</div>
+                                <div class="lesson-meta">
+                                    <div class="lesson-duration">⏱ 120 phút</div>
+                                    <div class="lesson-type">💻 Thực hành</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lesson-item">
+                            <div class="lesson-number">3</div>
+                            <div class="lesson-content">
+                                <div class="lesson-title">Functions & Modules</div>
+                                <div class="lesson-meta">
+                                    <div class="lesson-duration">⏱ 75 phút</div>
+                                    <div class="lesson-type">📚 Đọc + Bài tập</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <a href="#" class="btn-primary" onclick="startLearning()">Bắt đầu hôm nay</a>
+                    
+                    <div class="secondary-actions">
+                        <a href="#" class="btn-secondary" onclick="viewFullRoadmap()">Xem kế hoạch tuần 1</a>
+                        <a href="#" class="btn-secondary" onclick="viewRoadmap()">Xem toàn bộ roadmap</a>
+                    </div>
+                </div>
+
+                <div class="next-steps">
+                    <h3 class="next-steps-title">Bước tiếp theo</h3>
+                    <ol class="step-list">
+                        <li class="step-list-item">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Đặt lịch nhắc nhở học tập hàng ngày</div>
+                        </li>
+                        <li class="step-list-item">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Tham gia cộng đồng học viên GenMentor</div>
+                        </li>
+                        <li class="step-list-item">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Chuẩn bị môi trường học tập (IDE, tools)</div>
+                        </li>
+                        <li class="step-list-item">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Bắt đầu với bài học đầu tiên</div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startLearning() {
+            // Save completion state
+            localStorage.setItem('onboardingCompleted', 'true');
+            localStorage.setItem('currentLesson', '1');
+            
+            // Navigate to daily learning page
+            alert('Chuyển đến trang học tập hàng ngày');
+            // window.location.href = '../daily/today.html';
+        }
+
+        function viewFullRoadmap() {
+            // Navigate to week 1 detailed view
+            alert('Hiển thị kế hoạch chi tiết tuần 1');
+            // window.location.href = '../roadmap/week_1.html';
+        }
+
+        function viewRoadmap() {
+            // Navigate to full roadmap overview
+            alert('Hiển thị toàn bộ roadmap');
+            // window.location.href = '../roadmap/overview.html';
+        }
+
+        // Load and display personalized data
+        function loadPersonalizedData() {
+            const goalSetup = JSON.parse(localStorage.getItem('goalSetup') || '{}');
+            const aiReview = JSON.parse(localStorage.getItem('aiReview') || '{}');
+            const availability = JSON.parse(localStorage.getItem('availability') || '{}');
+
+            // Update title with target role
+            if (aiReview.personalInfo && aiReview.personalInfo.targetRole) {
+                document.querySelector('.summary-title').textContent = 
+                    `Lộ trình ${aiReview.personalInfo.targetRole}`;
+            }
+
+            // Calculate total duration based on availability
+            if (availability.sessionsPerWeek && availability.minutesPerSession) {
+                const weeklyHours = (availability.sessionsPerWeek * availability.minutesPerSession) / 60;
+                const totalWeeks = Math.ceil(144 / weeklyHours); // Assuming 144 total hours needed
+                
+                document.querySelector('.stat-item:first-child .stat-value').textContent = totalWeeks;
+                document.querySelector('.stat-item:last-child .stat-value').textContent = `${Math.round(weeklyHours * totalWeeks)}h`;
+            }
+        }
+
+        // Auto-redirect after 30 seconds if no action
+        let autoRedirectTimer = setTimeout(() => {
+            if (confirm('Bạn có muốn bắt đầu học ngay bây giờ?')) {
+                startLearning();
+            }
+        }, 30000);
+
+        // Clear timer if user interacts
+        document.addEventListener('click', () => {
+            clearTimeout(autoRedirectTimer);
+        });
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadPersonalizedData);
+    </script>
+</body>
+</html>

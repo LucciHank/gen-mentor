@@ -1,178 +1,65 @@
 import streamlit as st
 import time
-from utils.state import initialize_session_state, change_selected_goal_id, save_persistent_state, load_persistent_state, _get_data_store_path
+from utils.state import initialize_session_state, save_persistent_state
+
 initialize_session_state()
 
-
-st.session_state.setdefault("_autosave_enabled", True)
-try:
-    save_persistent_state()
-except Exception:
-    pass
-
-from components.chatbot import render_chatbot
-
 st.set_page_config(page_title="GenMentor", page_icon="🧠", layout="wide")
-st.logo("./assets/avatar.png")
 st.markdown('<style>' + open('./assets/css/main.css').read() + '</style>', unsafe_allow_html=True)
 
-try:
-    if st.session_state.get("if_complete_onboarding", False) and not st.session_state.get("_navigated_lp_once", False):
-        st.session_state["_navigated_lp_once"] = True
-        try:
-            st.switch_page("pages/learning_path.py")
-        except Exception:
-            pass
-except Exception:
-    pass
+# ── Auto-navigate after onboarding ──────────────────────────
+if st.session_state.get("if_complete_onboarding", False):
+    try:
+        st.switch_page("pages/dashboard.py")
+    except Exception:
+        pass
 
-@st.dialog("Xác nhận thiết lập lại")
-def show_reset_dialog():
-    st.warning("Tất cả lịch sử sẽ bị xóa. Bạn có muốn thiết lập lại không?")
-    st.divider()
-    col_confirm, _space, col_cancel = st.columns([1, 2, 0.7])
-    with col_confirm:
-        if st.button("Xác nhận", type="primary"):
-            from pathlib import Path
-            from datetime import datetime
-            import shutil
-            try:
-                st.session_state["_autosave_enabled"] = False
-            except Exception:
-                pass
-            try:
-                data_path = _get_data_store_path()
-            except Exception:
-                data_path = Path(__file__).resolve().parent / "user_data" / "data_store.json"
-            try:
-                data_path.parent.mkdir(parents=True, exist_ok=True)
-            except Exception:
-                pass
-            if data_path.exists():
-                try:
-                    ts = datetime.now().strftime("%Y%m%d-%H%M%S")
-                    backup_path = data_path.parent / f"data_storage-{ts}.json"
-                    shutil.copy2(str(data_path), str(backup_path))
-                except Exception:
-                    pass
-                try:
-                    data_path.unlink()
-                except Exception:
-                    pass
-            try:
-                st.session_state.clear()
-            except Exception:
-                pass
-            try:
-                # After clearing state, navigate to onboarding page explicitly
-                try:
-                    st.switch_page("pages/onboarding.py")
-                except Exception:
-                    st.rerun()
-            except Exception:
-                try:
-                    st.rerun()
-                except Exception:
-                    pass
-    with col_cancel:
-        if st.button("Hủy"):
-            # simply rerun to close the dialog without changes
-            try:
-                st.rerun()
-            except Exception:
-                try:
-                    st.rerun()
-                except Exception:
-                    pass
-
-if st.session_state["show_chatbot"]:
-    render_chatbot()
-
-if st.session_state["if_complete_onboarding"]:
-    onboarding = st.Page("pages/onboarding.py", title="Chào mừng", icon=":material/how_to_reg:", default=False, url_path="onboarding")
-    learning_path = st.Page("pages/learning_path.py", title="Lộ trình học tập", icon=":material/route:", default=True, url_path="learning_path")
+# ── Navigation ──────────────────────────────────────────────
+if not st.session_state.get("if_complete_onboarding", False):
+    # Before onboarding complete — only show onboarding
+    pg = st.navigation([
+        st.Page("pages/onboarding.py", title="Chào mừng", icon=":material/how_to_reg:", default=True, url_path="onboarding"),
+    ])
 else:
-    onboarding = st.Page("pages/onboarding.py", title="Chào mừng", icon=":material/how_to_reg:", default=True, url_path="onboarding")
-    learning_path = st.Page("pages/learning_path.py", title="Lộ trình học tập", icon=":material/route:", default=False, url_path="learning_path")
-skill_gaps = st.Page("pages/skill_gap.py", title="Lỗ hổng kỹ năng", icon=":material/insights:", default=False, url_path="skill_gap")
-knowledge_document = st.Page("pages/knowledge_document.py", title="Tiếp tục học tập", icon=":material/menu_book:", default=False, url_path="knowledge_document")
-learner_profile = st.Page("pages/learner_profile.py", title="Hồ sơ cá nhân", icon=":material/person:", default=False, url_path="learner_profile")
-goal_management = st.Page("pages/goal_management.py", title="Quản lý mục tiêu", icon=":material/flag:", default=False, url_path="goal_management")
-dashboard = st.Page("pages/dashboard.py", title="Bảng điều khiển phân tích", icon=":material/browse:", default=False, url_path="dashboard")
+    # After onboarding — full app with 8 screens
+    dashboard = st.Page("pages/dashboard.py", title="Hôm nay", icon=":material/home:", default=True, url_path="dashboard")
+    roadmap = st.Page("pages/roadmap.py", title="Roadmap", icon=":material/route:", url_path="roadmap")
+    progress = st.Page("pages/progress.py", title="Tiến độ", icon=":material/insights:", url_path="progress")
+    review = st.Page("pages/review.py", title="Điều chỉnh", icon=":material/settings:", url_path="review")
+    create_roadmap = st.Page("pages/create_roadmap.py", title="Tạo lộ trình", icon=":material/add_circle:", url_path="create_roadmap")
+    module_detail = st.Page("pages/module_detail.py", title="Chi tiết chặng", icon=":material/folder:", url_path="module_detail")
+    lesson = st.Page("pages/lesson.py", title="Bài học", icon=":material/play_circle:", url_path="lesson")
+    weekly_plan = st.Page("pages/weekly_plan.py", title="Kế hoạch tuần", icon=":material/calendar_today:", url_path="weekly_plan")
 
-# Learning Analytics Dashboard
-if not st.session_state["if_complete_onboarding"]:
-    nav_position = "sidebar"
-    pg = st.navigation({"GenMentor": [onboarding, skill_gaps, learning_path]}, position="hidden", expanded=True)
-else:
-    nav_position = "sidebar"
-    pg = st.navigation({"GenMentor": [goal_management, learning_path, knowledge_document, learner_profile, dashboard]}, position=nav_position, expanded=True)
+    pg = st.navigation({
+        "Trang chủ": [dashboard],
+        "Lộ trình của tôi": [dashboard, roadmap, progress, review],
+        "Khóa học của tôi": [module_detail, lesson],
+        "Bài tập": [weekly_plan],
+        "Khám phá": [create_roadmap],
+    }, position="sidebar")
+
+    # Sidebar Branding
     with st.sidebar:
-        _left, _center, _right = st.columns([2, 2, 2])
-        with _center:
-            if st.button("Thiết lập lại", help="Xóa lịch sử cục bộ (giữ lại các bản sao lưu)"):
-                show_reset_dialog()
-    goal = st.session_state["goals"][st.session_state["selected_goal_id"]]
-    goal['start_time'] = time.time()
-    try:
-        save_persistent_state()
-    except Exception:
-        pass
-    unlearned_skill = len(goal['learner_profile']['cognitive_status']['in_progress_skills'])
-    learned_skill = len(goal['learner_profile']['cognitive_status']['mastered_skills'])
-    all_skill = learned_skill + unlearned_skill
+        st.markdown("""
+        <div style="padding: 10px 0 24px 0; display:flex; align-items:center; gap:12px;">
+            <div style="background:var(--primary); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-weight:800; font-size:18px;">G</div>
+            <div style="font-size:20px; font-weight:800; letter-spacing:-0.04em;">GenMentor</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    if goal['id'] not in st.session_state['learned_skills_history']:
-        st.session_state['learned_skills_history'][goal['id']] = []
-        try:
-            save_persistent_state()
-        except Exception:
-            pass
-
-    if all_skill != 0:
-        mastery_rate = learned_skill / all_skill if all_skill != 0 else 0
-        if st.session_state['learned_skills_history'][goal['id']] == []:
-            st.session_state['learned_skills_history'][goal['id']].append(mastery_rate)
-            try:
-                save_persistent_state()
-            except Exception:
-                pass
-    if(time.time()-goal['start_time']>600):
-        goal['start_time'] = time.time()
-        try:
-            save_persistent_state()
-        except Exception:
-            pass
-        st.session_state['learned_skills_history'][goal['id']].append(mastery_rate)
-        try:
-            save_persistent_state()
-        except Exception:
-            pass
-
-    if len(st.session_state['learned_skills_history'][goal['id']]) > 10:
-        st.session_state['learned_skills_history'][goal['id']].pop(0)
-        try:
-            save_persistent_state()
-        except Exception:
-            pass
-
-    try:
-        save_persistent_state()
-    except Exception:
-        pass
-
-try:
-    if st.session_state.get("_autosave_enabled", True):
-        save_persistent_state()
-except Exception:
-    pass
-
-if len(st.session_state["goals"]) != 0:
-    change_selected_goal_id(st.session_state["selected_goal_id"])
-    try:
-        save_persistent_state()
-    except Exception:
-        pass
+    # Sidebar reset button
+    with st.sidebar:
+        st.divider()
+        if st.button("🔄 Thiết lập lại", key="reset_btn", use_container_width=True):
+            from utils.state import reset_onboarding
+            reset_onboarding()
+            st.switch_page("pages/onboarding.py")
+        
+        st.markdown("""
+        <div style="margin-top: 20px; font-size:13px; color:var(--text-tertiary); display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <span>❓ Giúp đỡ</span>
+        </div>
+        """, unsafe_allow_html=True)
 
 pg.run()
-

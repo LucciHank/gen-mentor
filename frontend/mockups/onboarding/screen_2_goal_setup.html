@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMentor - Thiết lập mục tiêu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background-color: #F7F7F8;
+            color: #1D1D1F;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #E5E5E7;
+            padding: 24px 0;
+        }
+
+        .logo {
+            padding: 0 24px 32px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #007AFF;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            color: #86868B;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .nav-item.active {
+            background: #007AFF0A;
+            color: #007AFF;
+            border-right: 2px solid #007AFF;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px 48px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E5E5E7;
+            border-radius: 2px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #007AFF;
+            width: 14.3%; /* 1/7 steps */
+            transition: width 0.3s ease;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1D1D1F;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .form-subtitle {
+            font-size: 18px;
+            color: #86868B;
+            margin-bottom: 40px;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid #E5E5E7;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1D1D1F;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #E5E5E7;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .suggested-goals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .goal-chip {
+            background: #F7F7F8;
+            border: 1px solid #E5E5E7;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #1D1D1F;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .goal-chip:hover {
+            background: #007AFF0A;
+            border-color: #007AFF;
+            color: #007AFF;
+        }
+
+        .goal-chip.selected {
+            background: #007AFF;
+            border-color: #007AFF;
+            color: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #E5E5E7;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #86868B;
+            pointer-events: none;
+            font-size: 12px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn-back {
+            background: transparent;
+            color: #86868B;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background: #E5E5E7;
+            color: #86868B;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 16px 0;
+            }
+            
+            .main-content {
+                padding: 24px;
+            }
+            
+            .form-title {
+                font-size: 28px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">GenMentor</div>
+            <div class="nav-item">Trang chủ</div>
+            <div class="nav-item">Khóa học của tôi</div>
+            <div class="nav-item active">Lộ trình của tôi</div>
+            <div class="nav-item">Hôm nay</div>
+            <div class="nav-item">Roadmap</div>
+            <div class="nav-item">Kỹ năng</div>
+            <div class="nav-item">Tiến độ</div>
+            <div class="nav-item">Review tuần</div>
+            <div class="nav-item">Bài tập</div>
+            <div class="nav-item">Cộng đồng</div>
+            <div class="nav-item">Khám phá</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="form-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <h1 class="form-title">Mục tiêu học tập của bạn</h1>
+                <p class="form-subtitle">Hãy chia sẻ những gì bạn muốn đạt được</p>
+
+                <form id="goalForm">
+                    <div class="form-section">
+                        <h2 class="section-title">Mục tiêu chính</h2>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Bạn muốn học gì?</label>
+                            <textarea 
+                                class="form-input form-textarea" 
+                                id="learningGoal"
+                                placeholder="Ví dụ: Tôi muốn trở thành Data Scientist để phân tích dữ liệu khách hàng..."
+                                required
+                            ></textarea>
+                            
+                            <div class="suggested-goals">
+                                <div class="goal-chip" onclick="selectGoal(this, 'Trở thành AI Engineer')">Trở thành AI Engineer</div>
+                                <div class="goal-chip" onclick="selectGoal(this, 'Học Machine Learning')">Học Machine Learning</div>
+                                <div class="goal-chip" onclick="selectGoal(this, 'Phát triển ứng dụng web')">Phát triển ứng dụng web</div>
+                                <div class="goal-chip" onclick="selectGoal(this, 'Quản lý dự án IT')">Quản lý dự án IT</div>
+                                <div class="goal-chip" onclick="selectGoal(this, 'Phân tích dữ liệu')">Phân tích dữ liệu</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="section-title">Thời gian & Mức độ</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Thời hạn mong muốn</label>
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="targetDeadline" required>
+                                        <option value="">Chọn thời gian</option>
+                                        <option value="3months">3 tháng</option>
+                                        <option value="6months">6 tháng</option>
+                                        <option value="1year">1 năm</option>
+                                        <option value="2years">2 năm</option>
+                                        <option value="flexible">Linh hoạt</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Trình độ hiện tại</label>
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="currentLevel" required>
+                                        <option value="">Chọn trình độ</option>
+                                        <option value="beginner">Mới bắt đầu</option>
+                                        <option value="intermediate">Trung bình</option>
+                                        <option value="advanced">Nâng cao</option>
+                                        <option value="expert">Chuyên gia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Kết quả mong muốn</label>
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="expectedOutcome"
+                                placeholder="Ví dụ: Có thể xây dựng mô hình ML để dự đoán xu hướng thị trường"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-back" onclick="goBack()">Quay lại</button>
+                        <button type="submit" class="btn-primary" id="continueBtn" disabled>Tiếp tục</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectGoal(chip, goalText) {
+            // Remove selected class from all chips
+            document.querySelectorAll('.goal-chip').forEach(c => c.classList.remove('selected'));
+            
+            // Add selected class to clicked chip
+            chip.classList.add('selected');
+            
+            // Set the goal text
+            document.getElementById('learningGoal').value = goalText;
+            
+            // Check form validity
+            checkFormValidity();
+        }
+
+        function checkFormValidity() {
+            const goal = document.getElementById('learningGoal').value.trim();
+            const deadline = document.getElementById('targetDeadline').value;
+            const level = document.getElementById('currentLevel').value;
+            
+            const isValid = goal && deadline && level;
+            document.getElementById('continueBtn').disabled = !isValid;
+        }
+
+        function goBack() {
+            window.location.href = 'screen_1_welcome.html';
+        }
+
+        // Form validation
+        document.getElementById('learningGoal').addEventListener('input', checkFormValidity);
+        document.getElementById('targetDeadline').addEventListener('change', checkFormValidity);
+        document.getElementById('currentLevel').addEventListener('change', checkFormValidity);
+
+        // Form submission
+        document.getElementById('goalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Save form data
+            const formData = {
+                learningGoal: document.getElementById('learningGoal').value,
+                targetDeadline: document.getElementById('targetDeadline').value,
+                currentLevel: document.getElementById('currentLevel').value,
+                expectedOutcome: document.getElementById('expectedOutcome').value
+            };
+            
+            localStorage.setItem('goalSetup', JSON.stringify(formData));
+            
+            // Navigate to next screen
+            window.location.href = 'screen_3_profile_source.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMentor - Xác nhận thông tin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background-color: #F7F7F8;
+            color: #1D1D1F;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #E5E5E7;
+            padding: 24px 0;
+        }
+
+        .logo {
+            padding: 0 24px 32px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #007AFF;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            color: #86868B;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .nav-item.active {
+            background: #007AFF0A;
+            color: #007AFF;
+            border-right: 2px solid #007AFF;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px 48px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E5E5E7;
+            border-radius: 2px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #007AFF;
+            width: 57.1%; /* 4/7 steps */
+            transition: width 0.3s ease;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1D1D1F;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .form-subtitle {
+            font-size: 18px;
+            color: #86868B;
+            margin-bottom: 40px;
+        }
+
+        .ai-analysis-card {
+            background: linear-gradient(135deg, #007AFF05, #5AC8FA05);
+            border: 1px solid #007AFF20;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: -8px;
+            left: 24px;
+            background: #007AFF;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .ai-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .ai-description {
+            font-size: 14px;
+            color: #86868B;
+            margin-bottom: 20px;
+        }
+
+        .review-section {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid #E5E5E7;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+        }
+
+        .edit-btn {
+            background: transparent;
+            color: #007AFF;
+            border: 1px solid #007AFF;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .edit-btn:hover {
+            background: #007AFF0A;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .info-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #86868B;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #1D1D1F;
+            background: #F7F7F8;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #E5E5E7;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-value.editable {
+            cursor: text;
+            transition: all 0.2s ease;
+        }
+
+        .info-value.editable:hover {
+            border-color: #007AFF;
+        }
+
+        .info-value.editable:focus {
+            outline: none;
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .skills-container {
+            margin-bottom: 24px;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: #F7F7F8;
+            border: 1px solid #E5E5E7;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #1D1D1F;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skill-level {
+            background: #007AFF;
+            color: white;
+            border-radius: 8px;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .skill-level.beginner {
+            background: #34C759;
+        }
+
+        .skill-level.intermediate {
+            background: #FF9500;
+        }
+
+        .skill-level.advanced {
+            background: #FF3B30;
+        }
+
+        .gaps-list {
+            list-style: none;
+        }
+
+        .gap-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .gap-item:last-child {
+            border-bottom: none;
+        }
+
+        .gap-icon {
+            width: 24px;
+            height: 24px;
+            background: #FF9500;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .gap-content {
+            flex: 1;
+        }
+
+        .gap-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1D1D1F;
+            margin-bottom: 4px;
+        }
+
+        .gap-description {
+            font-size: 12px;
+            color: #86868B;
+        }
+
+        .confidence-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 12px;
+            background: #F7F7F8;
+            border-radius: 8px;
+        }
+
+        .confidence-icon {
+            width: 20px;
+            height: 20px;
+            background: #34C759;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+        }
+
+        .confidence-text {
+            font-size: 14px;
+            color: #1D1D1F;
+        }
+
+        .confidence-score {
+            font-weight: 600;
+            color: #34C759;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn-back {
+            background: transparent;
+            color: #86868B;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 16px 0;
+            }
+            
+            .main-content {
+                padding: 24px;
+            }
+            
+            .form-title {
+                font-size: 28px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">GenMentor</div>
+            <div class="nav-item">Trang chủ</div>
+            <div class="nav-item">Khóa học của tôi</div>
+            <div class="nav-item active">Lộ trình của tôi</div>
+            <div class="nav-item">Hôm nay</div>
+            <div class="nav-item">Roadmap</div>
+            <div class="nav-item">Kỹ năng</div>
+            <div class="nav-item">Tiến độ</div>
+            <div class="nav-item">Review tuần</div>
+            <div class="nav-item">Bài tập</div>
+            <div class="nav-item">Cộng đồng</div>
+            <div class="nav-item">Khám phá</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="form-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <h1 class="form-title">Xác nhận thông tin</h1>
+                <p class="form-subtitle">Kiểm tra và chỉnh sửa thông tin AI đã phân tích từ hồ sơ của bạn</p>
+
+                <div class="ai-analysis-card">
+                    <div class="ai-badge">AI PHÂN TÍCH</div>
+                    <h3 class="ai-title">Phân tích hoàn tất</h3>
+                    <p class="ai-description">
+                        Tôi đã phân tích CV và thông tin của bạn. Hãy xem lại kết quả và chỉnh sửa nếu cần thiết.
+                    </p>
+                </div>
+
+                <form id="reviewForm">
+                    <div class="review-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Thông tin cá nhân</h2>
+                            <button type="button" class="edit-btn" onclick="toggleEdit('personal')">Chỉnh sửa</button>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label class="info-label">Họ và tên</label>
+                                <div class="info-value editable" contenteditable="false" id="fullName">Nguyễn Văn An</div>
+                            </div>
+                            <div class="info-item">
+                                <label class="info-label">Email</label>
+                                <div class="info-value editable" contenteditable="false" id="email">nguyen.van.an@email.com</div>
+                            </div>
+                            <div class="info-item">
+                                <label class="info-label">Kinh nghiệm</label>
+                                <div class="info-value editable" contenteditable="false" id="experience">3 năm phát triển phần mềm</div>
+                            </div>
+                            <div class="info-item">
+                                <label class="info-label">Vị trí mong muốn</label>
+                                <div class="info-value editable" contenteditable="false" id="targetRole">AI Engineer</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Kỹ năng hiện tại</h2>
+                            <button type="button" class="edit-btn" onclick="toggleEdit('skills')">Chỉnh sửa</button>
+                        </div>
+                        
+                        <div class="skills-container">
+                            <div class="skills-grid" id="currentSkills">
+                                <div class="skill-tag">
+                                    <span>Python</span>
+                                    <span class="skill-level intermediate">Trung bình</span>
+                                </div>
+                                <div class="skill-tag">
+                                    <span>JavaScript</span>
+                                    <span class="skill-level intermediate">Trung bình</span>
+                                </div>
+                                <div class="skill-tag">
+                                    <span>SQL</span>
+                                    <span class="skill-level beginner">Cơ bản</span>
+                                </div>
+                                <div class="skill-tag">
+                                    <span>Machine Learning</span>
+                                    <span class="skill-level beginner">Cơ bản</span>
+                                </div>
+                                <div class="skill-tag">
+                                    <span>React</span>
+                                    <span class="skill-level intermediate">Trung bình</span>
+                                </div>
+                                <div class="skill-tag">
+                                    <span>Git</span>
+                                    <span class="skill-level intermediate">Trung bình</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Khoảng trống kỹ năng</h2>
+                            <button type="button" class="edit-btn" onclick="toggleEdit('gaps')">Chỉnh sửa</button>
+                        </div>
+                        
+                        <ul class="gaps-list">
+                            <li class="gap-item">
+                                <div class="gap-icon">!</div>
+                                <div class="gap-content">
+                                    <div class="gap-title">Deep Learning</div>
+                                    <div class="gap-description">Cần thiết cho vị trí AI Engineer - Neural Networks, TensorFlow/PyTorch</div>
+                                </div>
+                            </li>
+                            <li class="gap-item">
+                                <div class="gap-icon">!</div>
+                                <div class="gap-content">
+                                    <div class="gap-title">Data Science</div>
+                                    <div class="gap-description">Pandas, NumPy, Matplotlib cho phân tích và trực quan hóa dữ liệu</div>
+                                </div>
+                            </li>
+                            <li class="gap-item">
+                                <div class="gap-icon">!</div>
+                                <div class="gap-content">
+                                    <div class="gap-title">MLOps</div>
+                                    <div class="gap-description">Docker, Kubernetes, CI/CD cho triển khai mô hình ML</div>
+                                </div>
+                            </li>
+                            <li class="gap-item">
+                                <div class="gap-icon">!</div>
+                                <div class="gap-content">
+                                    <div class="gap-title">Cloud Platforms</div>
+                                    <div class="gap-description">AWS/GCP/Azure cho xây dựng hệ thống AI quy mô lớn</div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="confidence-indicator">
+                            <div class="confidence-icon">✓</div>
+                            <div class="confidence-text">
+                                Độ tin cậy phân tích: <span class="confidence-score">87%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Mục tiêu học tập</h2>
+                            <button type="button" class="edit-btn" onclick="toggleEdit('goals')">Chỉnh sửa</button>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label class="info-label">Mục tiêu chính</label>
+                                <div class="info-value editable" contenteditable="false" id="mainGoal">Trở thành AI Engineer trong 6 tháng</div>
+                            </div>
+                            <div class="info-item">
+                                <label class="info-label">Thời gian học/tuần</label>
+                                <div class="info-value" id="weeklyTime">6 giờ (3 buổi × 2 giờ)</div>
+                            </div>
+                            <div class="info-item">
+                                <label class="info-label">Phong cách học</label>
+                                <div class="info-value" id="learningStyle">Video, Thực hành, Quiz</div>
+                            </div>
+                            <div class="info-item">
+                                <label class="info-label">Thiết bị chính</label>
+                                <div class="info-value" id="primaryDevice">Laptop</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-back" onclick="goBack()">Quay lại</button>
+                        <button type="submit" class="btn-primary">Xác nhận và tạo lộ trình</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editModes = {
+            personal: false,
+            skills: false,
+            gaps: false,
+            goals: false
+        };
+
+        function toggleEdit(section) {
+            const isEditing = editModes[section];
+            editModes[section] = !isEditing;
+            
+            const button = event.target;
+            const sectionElement = button.closest('.review-section');
+            const editableElements = sectionElement.querySelectorAll('.editable');
+            
+            if (editModes[section]) {
+                button.textContent = 'Lưu';
+                button.style.background = '#34C759';
+                button.style.borderColor = '#34C759';
+                button.style.color = 'white';
+                
+                editableElements.forEach(el => {
+                    el.contentEditable = true;
+                    el.style.background = 'white';
+                    el.style.borderColor = '#007AFF';
+                    el.focus();
+                });
+            } else {
+                button.textContent = 'Chỉnh sửa';
+                button.style.background = 'transparent';
+                button.style.borderColor = '#007AFF';
+                button.style.color = '#007AFF';
+                
+                editableElements.forEach(el => {
+                    el.contentEditable = false;
+                    el.style.background = '#F7F7F8';
+                    el.style.borderColor = '#E5E5E7';
+                });
+                
+                // Save changes
+                saveChanges(section);
+            }
+        }
+
+        function saveChanges(section) {
+            // Here you would save the changes to localStorage or send to server
+            console.log(`Saving changes for section: ${section}`);
+            
+            // Show success feedback
+            const button = document.querySelector(`[onclick="toggleEdit('${section}')"]`);
+            const originalText = button.textContent;
+            button.textContent = 'Đã lưu ✓';
+            button.style.background = '#34C759';
+            button.style.borderColor = '#34C759';
+            button.style.color = 'white';
+            
+            setTimeout(() => {
+                button.textContent = 'Chỉnh sửa';
+                button.style.background = 'transparent';
+                button.style.borderColor = '#007AFF';
+                button.style.color = '#007AFF';
+            }, 1500);
+        }
+
+        function goBack() {
+            window.location.href = 'screen_4_availability.html';
+        }
+
+        // Load data from previous steps
+        function loadPreviousData() {
+            const goalSetup = JSON.parse(localStorage.getItem('goalSetup') || '{}');
+            const availability = JSON.parse(localStorage.getItem('availability') || '{}');
+            
+            if (goalSetup.learningGoal) {
+                document.getElementById('mainGoal').textContent = goalSetup.learningGoal;
+            }
+            
+            if (availability.sessionsPerWeek && availability.minutesPerSession) {
+                const totalHours = (availability.sessionsPerWeek * availability.minutesPerSession) / 60;
+                document.getElementById('weeklyTime').textContent = 
+                    `${totalHours}h (${availability.sessionsPerWeek} buổi × ${availability.minutesPerSession}m)`;
+            }
+            
+            if (availability.learningStyles) {
+                document.getElementById('learningStyle').textContent = availability.learningStyles.join(', ');
+            }
+            
+            if (availability.primaryDevices) {
+                document.getElementById('primaryDevice').textContent = availability.primaryDevices.join(', ');
+            }
+        }
+
+        // Form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect all reviewed data
+            const reviewedData = {
+                personalInfo: {
+                    fullName: document.getElementById('fullName').textContent,
+                    email: document.getElementById('email').textContent,
+                    experience: document.getElementById('experience').textContent,
+                    targetRole: document.getElementById('targetRole').textContent
+                },
+                currentSkills: Array.from(document.querySelectorAll('#currentSkills .skill-tag')).map(tag => ({
+                    name: tag.querySelector('span:first-child').textContent,
+                    level: tag.querySelector('.skill-level').textContent
+                })),
+                skillGaps: Array.from(document.querySelectorAll('.gap-item')).map(item => ({
+                    title: item.querySelector('.gap-title').textContent,
+                    description: item.querySelector('.gap-description').textContent
+                })),
+                learningGoals: {
+                    mainGoal: document.getElementById('mainGoal').textContent,
+                    weeklyTime: document.getElementById('weeklyTime').textContent,
+                    learningStyle: document.getElementById('learningStyle').textContent,
+                    primaryDevice: document.getElementById('primaryDevice').textContent
+                }
+            };
+            
+            localStorage.setItem('aiReview', JSON.stringify(reviewedData));
+            
+            // Navigate to next screen
+            window.location.href = 'screen_6_generating.html';
+        });
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadPreviousData);
+    </script>
+</body>
+</html>

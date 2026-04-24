@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMentor - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background-color: #F7F7F8;
+            color: #1D1D1F;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007AFF;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #86868B;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #E5E5E7;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .demo-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 12px;
+        }
+
+        .demo-card p {
+            color: #86868B;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: #E5E5E7;
+            color: #86868B;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-box {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .result-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .result-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #34C759;
+        }
+
+        .status-offline {
+            background: #FF3B30;
+        }
+
+        .api-status {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #E5E5E7;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .json-display {
+            background: #F7F7F8;
+            border: 1px solid #E5E5E7;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1D1D1F;
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #E5E5E7;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #E5E5E7;
+            border-radius: 50%;
+            border-top-color: #007AFF;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .mockup-link {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #E5E5E7;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .mockup-link h3 {
+            color: #007AFF;
+            margin-bottom: 16px;
+        }
+
+        .mockup-link a {
+            color: #007AFF;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 8px;
+        }
+
+        .mockup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 GenMentor Demo</h1>
+            <p>AI-Powered Personalized Learning Platform</p>
+        </div>
+
+        <div class="api-status">
+            <h3>🔌 Backend API Status</h3>
+            <p id="api-status">
+                <span class="status-indicator status-offline"></span>
+                Checking connection...
+            </p>
+            <button class="btn" onclick="checkApiStatus()" style="max-width: 200px; margin-top: 12px;">
+                Refresh Status
+            </button>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>📄 CV Parser</h3>
+                <p>Test CV parsing functionality with mock data</p>
+                
+                <div class="form-group">
+                    <label class="form-label">CV Text (optional)</label>
+                    <textarea class="form-textarea" id="cv-text" placeholder="Enter CV content or leave empty for mock data..."></textarea>
+                </div>
+                
+                <button class="btn" onclick="testCVParser()">Parse CV</button>
+                <div class="result-box" id="cv-result"></div>
+            </div>
+
+            <div class="demo-card">
+                <h3>🧠 Diagnostic Generator</h3>
+                <p>Generate skill assessment questions</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Target Role</label>
+                    <select class="form-select" id="target-role">
+                        <option>AI Engineer</option>
+                        <option>Data Scientist</option>
+                        <option>Software Developer</option>
+                        <option>ML Engineer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Number of Questions</label>
+                    <input type="number" class="form-input" id="question-count" value="5" min="3" max="15">
+                </div>
+                
+                <button class="btn" onclick="testDiagnostic()">Generate Diagnostic</button>
+                <div class="result-box" id="diagnostic-result"></div>
+            </div>
+
+            <div class="demo-card">
+                <h3>👤 Learner Profile</h3>
+                <p>Build comprehensive learner profile</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" id="learner-name" value="Demo User">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Learning Goals</label>
+                    <input type="text" class="form-input" id="learning-goals" value="Become AI Engineer, Learn Machine Learning">
+                </div>
+                
+                <button class="btn" onclick="testProfileBuilder()">Build Profile</button>
+                <div class="result-box" id="profile-result"></div>
+            </div>
+
+            <div class="demo-card">
+                <h3>🛤️ Learning Path</h3>
+                <p>Generate personalized learning path</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Target Role</label>
+                    <select class="form-select" id="path-role">
+                        <option>AI Engineer</option>
+                        <option>Data Scientist</option>
+                        <option>Software Developer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Duration (weeks)</label>
+                    <input type="number" class="form-input" id="duration-weeks" value="12" min="4" max="24">
+                </div>
+                
+                <button class="btn" onclick="testPathGenerator()">Generate Path</button>
+                <div class="result-box" id="path-result"></div>
+            </div>
+
+            <div class="demo-card">
+                <h3>📚 Document Upload</h3>
+                <p>Upload and process learning materials</p>
+                
+                <div class="form-group">
+                    <label class="form-label">File</label>
+                    <input type="file" class="form-input" id="document-file" accept=".pdf,.docx,.txt,.md">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" id="doc-category">
+                        <option>AI</option>
+                        <option>Programming</option>
+                        <option>Data Science</option>
+                        <option>General</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="testDocumentUpload()">Upload Document</button>
+                <div class="result-box" id="upload-result"></div>
+            </div>
+
+            <div class="demo-card">
+                <h3>🔍 API Explorer</h3>
+                <p>Test any API endpoint directly</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Endpoint</label>
+                    <select class="form-select" id="api-endpoint">
+                        <option value="/">/</option>
+                        <option value="/health">/health</option>
+                        <option value="/documents">/documents</option>
+                        <option value="/demo-data">/demo-data</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="testApiEndpoint()">Test Endpoint</button>
+                <div class="result-box" id="api-result"></div>
+            </div>
+        </div>
+
+        <div class="mockup-link">
+            <h3>🎨 UI/UX Mockups</h3>
+            <p>Xem các màn hình onboarding hoàn chỉnh:</p>
+            <div style="margin-top: 16px;">
+                <a href="mockups/onboarding/screen_1_welcome.html" target="_blank">Welcome</a>
+                <a href="mockups/onboarding/screen_2_goal_setup.html" target="_blank">Goal Setup</a>
+                <a href="mockups/onboarding/screen_3_profile_source.html" target="_blank">Profile Source</a>
+                <a href="mockups/onboarding/screen_4_availability.html" target="_blank">Availability</a>
+                <a href="mockups/onboarding/screen_5_ai_review.html" target="_blank">AI Review</a>
+                <a href="mockups/onboarding/screen_6_generating.html" target="_blank">Generating</a>
+                <a href="mockups/onboarding/screen_7_success.html" target="_blank">Success</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+
+        // Check API status on page load
+        document.addEventListener('DOMContentLoaded', checkApiStatus);
+
+        async function checkApiStatus() {
+            const statusElement = document.getElementById('api-status');
+            
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    statusElement.innerHTML = '<span class="status-indicator status-online"></span>Backend is online and healthy';
+                } else {
+                    throw new Error('API returned error');
+                }
+            } catch (error) {
+                statusElement.innerHTML = '<span class="status-indicator status-offline"></span>Backend is offline or unreachable';
+            }
+        }
+
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+                
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                const result = await response.json();
+                
+                return { success: response.ok, data: result };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+
+        function showResult(elementId, success, data) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            
+            if (success) {
+                element.className = 'result-box result-success';
+                element.innerHTML = `<strong>✅ Success!</strong><div class="json-display">${JSON.stringify(data, null, 2)}</div>`;
+            } else {
+                element.className = 'result-box result-error';
+                element.innerHTML = `<strong>❌ Error:</strong> ${data?.error || data}`;
+            }
+        }
+
+        function setLoading(buttonElement, loading) {
+            if (loading) {
+                buttonElement.disabled = true;
+                buttonElement.innerHTML = '<span class="loading"></span>Processing...';
+            } else {
+                buttonElement.disabled = false;
+                buttonElement.innerHTML = buttonElement.getAttribute('data-original-text');
+            }
+        }
+
+        async function testCVParser() {
+            const button = event.target;
+            button.setAttribute('data-original-text', button.innerHTML);
+            setLoading(button, true);
+            
+            const cvText = document.getElementById('cv-text').value;
+            const data = cvText ? { cv_text: cvText } : {};
+            
+            const result = await apiCall('/cv/parse', 'POST', data);
+            showResult('cv-result', result.success, result.data || result.error);
+            
+            setLoading(button, false);
+        }
+
+        async function testDiagnostic() {
+            const button = event.target;
+            button.setAttribute('data-original-text', button.innerHTML);
+            setLoading(button, true);
+            
+            const data = {
+                learner_profile: { name: "Demo User" },
+                target_role: document.getElementById('target-role').value,
+                skill_gaps: ["Python", "Machine Learning", "Data Analysis"],
+                question_count: parseInt(document.getElementById('question-count').value)
+            };
+            
+            const result = await apiCall('/diagnostic/generate', 'POST', data);
+            showResult('diagnostic-result', result.success, result.data || result.error);
+            
+            setLoading(button, false);
+        }
+
+        async function testProfileBuilder() {
+            const button = event.target;
+            button.setAttribute('data-original-text', button.innerHTML);
+            setLoading(button, true);
+            
+            const data = {
+                learner_info: {
+                    name: document.getElementById('learner-name').value,
+                    email: "demo@example.com"
+                },
+                cv_analysis: { skills: ["Python", "JavaScript"], experience_years: 3 },
+                diagnostic_results: { overall_score: 3.2, skill_levels: { "Python": 3, "ML": 2 } },
+                learning_goals: document.getElementById('learning-goals').value.split(',').map(g => g.trim())
+            };
+            
+            const result = await apiCall('/learner-profile/build', 'POST', data);
+            showResult('profile-result', result.success, result.data || result.error);
+            
+            setLoading(button, false);
+        }
+
+        async function testPathGenerator() {
+            const button = event.target;
+            button.setAttribute('data-original-text', button.innerHTML);
+            setLoading(button, true);
+            
+            const data = {
+                learner_profile: {
+                    id: "demo_learner",
+                    current_skills: { "Python": "intermediate" },
+                    goals: ["AI Engineer"]
+                },
+                target_role: document.getElementById('path-role').value,
+                time_commitment: "6 hours/week",
+                duration_weeks: parseInt(document.getElementById('duration-weeks').value)
+            };
+            
+            const result = await apiCall('/learning-path/generate', 'POST', data);
+            showResult('path-result', result.success, result.data || result.error);
+            
+            setLoading(button, false);
+        }
+
+        async function testDocumentUpload() {
+            const button = event.target;
+            button.setAttribute('data-original-text', button.innerHTML);
+            setLoading(button, true);
+            
+            // Mock upload for demo
+            const fileName = document.getElementById('document-file').files[0]?.name || 'demo-document.pdf';
+            const category = document.getElementById('doc-category').value;
+            
+            const mockResult = {
+                document_id: Math.floor(Math.random() * 1000),
+                filename: fileName,
+                status: "success",
+                message: "Document uploaded and processed successfully"
+            };
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            showResult('upload-result', true, mockResult);
+            setLoading(button, false);
+        }
+
+        async function testApiEndpoint() {
+            const button = event.target;
+            button.setAttribute('data-original-text', button.innerHTML);
+            setLoading(button, true);
+            
+            const endpoint = document.getElementById('api-endpoint').value;
+            const result = await apiCall(endpoint);
+            showResult('api-result', result.success, result.data || result.error);
+            
+            setLoading(button, false);
+        }
+    </script>
+</body>
+</html>

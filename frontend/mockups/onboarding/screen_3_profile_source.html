@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMentor - Hồ sơ của bạn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background-color: #F7F7F8;
+            color: #1D1D1F;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #E5E5E7;
+            padding: 24px 0;
+        }
+
+        .logo {
+            padding: 0 24px 32px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #007AFF;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            color: #86868B;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .nav-item.active {
+            background: #007AFF0A;
+            color: #007AFF;
+            border-right: 2px solid #007AFF;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px 48px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E5E5E7;
+            border-radius: 2px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #007AFF;
+            width: 28.6%; /* 2/7 steps */
+            transition: width 0.3s ease;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1D1D1F;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .form-subtitle {
+            font-size: 18px;
+            color: #86868B;
+            margin-bottom: 40px;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid #E5E5E7;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 16px;
+        }
+
+        .upload-area {
+            border: 2px dashed #E5E5E7;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .upload-area:hover {
+            border-color: #007AFF;
+            background: #007AFF05;
+        }
+
+        .upload-area.dragover {
+            border-color: #007AFF;
+            background: #007AFF0A;
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            background: #007AFF0A;
+            border-radius: 24px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #007AFF;
+        }
+
+        .upload-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtitle {
+            font-size: 14px;
+            color: #86868B;
+            margin-bottom: 16px;
+        }
+
+        .upload-btn {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-btn:hover {
+            background: #0056CC;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: #F7F7F8;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .file-icon {
+            width: 32px;
+            height: 32px;
+            background: #34C759;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1D1D1F;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: #86868B;
+        }
+
+        .file-remove {
+            background: none;
+            border: none;
+            color: #86868B;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .file-remove:hover {
+            background: #E5E5E7;
+        }
+
+        .connection-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .connection-card {
+            border: 1px solid #E5E5E7;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .connection-card:hover {
+            border-color: #007AFF;
+            background: #007AFF05;
+        }
+
+        .connection-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .linkedin-icon {
+            background: #0077B5;
+        }
+
+        .github-icon {
+            background: #333;
+        }
+
+        .connection-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1D1D1F;
+            margin-bottom: 4px;
+        }
+
+        .connection-subtitle {
+            font-size: 12px;
+            color: #86868B;
+        }
+
+        .skills-section {
+            margin-top: 24px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .skill-category {
+            border: 1px solid #E5E5E7;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .category-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 12px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: #F7F7F8;
+            border: 1px solid #E5E5E7;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #1D1D1F;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .skill-tag:hover {
+            background: #007AFF0A;
+            border-color: #007AFF;
+            color: #007AFF;
+        }
+
+        .skill-tag.selected {
+            background: #007AFF;
+            border-color: #007AFF;
+            color: white;
+        }
+
+        .agent-hint {
+            background: #F7F7F8;
+            border: 1px solid #E5E5E7;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .hint-icon {
+            width: 24px;
+            height: 24px;
+            background: #007AFF;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .hint-text {
+            font-size: 14px;
+            color: #86868B;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn-back {
+            background: transparent;
+            color: #86868B;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background: #F7F7F8;
+            color: #1D1D1F;
+        }
+
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 16px 0;
+            }
+            
+            .main-content {
+                padding: 24px;
+            }
+            
+            .form-title {
+                font-size: 28px;
+            }
+            
+            .connection-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">GenMentor</div>
+            <div class="nav-item">Trang chủ</div>
+            <div class="nav-item">Khóa học của tôi</div>
+            <div class="nav-item active">Lộ trình của tôi</div>
+            <div class="nav-item">Hôm nay</div>
+            <div class="nav-item">Roadmap</div>
+            <div class="nav-item">Kỹ năng</div>
+            <div class="nav-item">Tiến độ</div>
+            <div class="nav-item">Review tuần</div>
+            <div class="nav-item">Bài tập</div>
+            <div class="nav-item">Cộng đồng</div>
+            <div class="nav-item">Khám phá</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="form-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <h1 class="form-title">Hồ sơ của bạn</h1>
+                <p class="form-subtitle">Giúp chúng tôi hiểu rõ hơn về kinh nghiệm và kỹ năng của bạn</p>
+
+                <form id="profileForm">
+                    <div class="form-section">
+                        <h2 class="section-title">Tải lên CV/Resume</h2>
+                        
+                        <div class="upload-area" id="uploadArea" onclick="document.getElementById('cvFile').click()">
+                            <div class="upload-icon">📄</div>
+                            <div class="upload-title">Kéo thả file CV hoặc click để chọn</div>
+                            <div class="upload-subtitle">Hỗ trợ PDF, DOC, DOCX (tối đa 10MB)</div>
+                            <button type="button" class="upload-btn">Chọn file</button>
+                        </div>
+                        
+                        <input type="file" id="cvFile" class="file-input" accept=".pdf,.doc,.docx" />
+                        
+                        <div id="uploadedFiles"></div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="section-title">Kết nối tài khoản</h2>
+                        
+                        <div class="connection-options">
+                            <div class="connection-card" onclick="connectLinkedIn()">
+                                <div class="connection-icon linkedin-icon">in</div>
+                                <div class="connection-title">LinkedIn</div>
+                                <div class="connection-subtitle">Đồng bộ kinh nghiệm làm việc</div>
+                            </div>
+                            
+                            <div class="connection-card" onclick="connectGitHub()">
+                                <div class="connection-icon github-icon">⚡</div>
+                                <div class="connection-title">GitHub</div>
+                                <div class="connection-subtitle">Phân tích dự án code</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="section-title">Tự đánh giá kỹ năng</h2>
+                        
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <div class="category-title">Lập trình</div>
+                                <div class="skill-tags">
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Python</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">JavaScript</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Java</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">C++</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">SQL</div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <div class="category-title">AI/ML</div>
+                                <div class="skill-tags">
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Machine Learning</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Deep Learning</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">TensorFlow</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">PyTorch</div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <div class="category-title">Dữ liệu</div>
+                                <div class="skill-tags">
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Data Analysis</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Pandas</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">NumPy</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Visualization</div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <div class="category-title">Web Development</div>
+                                <div class="skill-tags">
+                                    <div class="skill-tag" onclick="toggleSkill(this)">React</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">Node.js</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">HTML/CSS</div>
+                                    <div class="skill-tag" onclick="toggleSkill(this)">REST API</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="agent-hint">
+                            <div class="hint-icon">💡</div>
+                            <div class="hint-text">Bạn có thể bỏ qua CV và tự khai báo kỹ năng</div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-back" onclick="goBack()">Quay lại</button>
+                        <button type="submit" class="btn-primary">Phân tích hồ sơ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let uploadedFile = null;
+        let selectedSkills = [];
+
+        // File upload handling
+        document.getElementById('cvFile').addEventListener('change', handleFileUpload);
+
+        // Drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            // Validate file type
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Chỉ hỗ trợ file PDF, DOC, DOCX');
+                return;
+            }
+
+            // Validate file size (10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File không được vượt quá 10MB');
+                return;
+            }
+
+            uploadedFile = file;
+            displayUploadedFile(file);
+        }
+
+        function displayUploadedFile(file) {
+            const container = document.getElementById('uploadedFiles');
+            container.innerHTML = `
+                <div class="uploaded-file">
+                    <div class="file-icon">📄</div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                    </div>
+                    <button type="button" class="file-remove" onclick="removeFile()">×</button>
+                </div>
+            `;
+        }
+
+        function removeFile() {
+            uploadedFile = null;
+            document.getElementById('uploadedFiles').innerHTML = '';
+            document.getElementById('cvFile').value = '';
+        }
+
+        function toggleSkill(element) {
+            const skill = element.textContent;
+            
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                selectedSkills = selectedSkills.filter(s => s !== skill);
+            } else {
+                element.classList.add('selected');
+                selectedSkills.push(skill);
+            }
+        }
+
+        function connectLinkedIn() {
+            alert('Tính năng kết nối LinkedIn sẽ được triển khai sau');
+        }
+
+        function connectGitHub() {
+            alert('Tính năng kết nối GitHub sẽ được triển khai sau');
+        }
+
+        function goBack() {
+            window.location.href = 'screen_2_goal_setup.html';
+        }
+
+        // Form submission
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Save form data
+            const formData = {
+                hasCV: !!uploadedFile,
+                cvFileName: uploadedFile ? uploadedFile.name : null,
+                selectedSkills: selectedSkills,
+                linkedInConnected: false,
+                githubConnected: false
+            };
+            
+            localStorage.setItem('profileSource', JSON.stringify(formData));
+            
+            // Navigate to next screen
+            window.location.href = 'screen_4_availability.html';
+        });
+    </script>
+</body>
+</html>
